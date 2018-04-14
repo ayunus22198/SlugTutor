@@ -27,5 +27,11 @@ public class Course {
         return professor;
     }
 
+    public String toString()
+    {
+        return "";
+    }
+
+
 
 }

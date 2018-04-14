@@ -6,13 +6,18 @@ import android.os.AsyncTask;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String LOG = "MyActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new Parser().execute();
     }
 
     private class Parser extends AsyncTask<Void, Void, Void> {
@@ -24,8 +29,38 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
-            
+        protected Void doInBackground(Void... params){
+            String url = "https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/clte.html";
+            try {
+                Document document = Jsoup.connect(url).get();
+                Elements data=document.select("p");
+
+                String names = data.toString();
+
+
+                String[] nameArray = names.split("\n");
+
+                ArrayList<String> temp = new ArrayList<String>();
+                for(String s:nameArray)
+                {
+                    if(s.contains("<p><strong>"))
+                    {
+                        s = s.replace("<p>","");
+                        s = s.replace("<strong>","");
+                        s = s.replace("</p>","");
+                        s = s.replace("</strong>","");
+                        s = s.replace("<em>","");
+                        s = s.replace("</em>","");
+                        s = s.replace("<br>","");
+                        temp.add(s);
+                    }
+                }
+
+                Log.wtf(LOG, temp.toString());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
