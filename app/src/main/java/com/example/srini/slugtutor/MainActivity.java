@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params){
-            String url = "https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/acen.html";
+            String url = "https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/cmps.html";
             try {
                 Document document = Jsoup.connect(url).get();
                 Elements data=document.select("p");
@@ -61,11 +61,19 @@ public class MainActivity extends AppCompatActivity {
                 for(String s:temp)
                 {
                     String[] t = s.split("\\.");
-                    courses.add(new Course("ACEN "+t[0],t[t.length-1],t[1]));
+                    if(t[2].contains("notoffered"))
+                    {
+                        courses.add(new Course("CMPS "+t[0],"NOT OFFERED","NOT OFFERED"));
+                    }
+                    else
+                    {
+                        courses.add(new Course("CMPS "+t[0],t[t.length-1],t[1]));
+                    }
+
                 }
+
+
                 Log.wtf(LOG,courses.toString());
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
