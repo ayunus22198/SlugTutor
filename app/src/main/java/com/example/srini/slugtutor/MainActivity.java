@@ -14,6 +14,7 @@ import com.example.srini.slugtutor.Course;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG = "MyActivity";
+    ArrayList<Course> courses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params){
-            ArrayList<Course> courses;
             String url = "https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/acen.html";
             try {
                 Document document = Jsoup.connect(url).get();
