@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import com.example.srini.slugtutor.Course;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG = "MyActivity";
@@ -30,10 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params){
-            String url = "https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/clte.html";
+            ArrayList<Course> courses;
+            String url = "https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/acen.html";
             try {
                 Document document = Jsoup.connect(url).get();
                 Elements data=document.select("p");
+                courses = new ArrayList<Course>();
 
                 String names = data.toString();
 
@@ -55,8 +58,13 @@ public class MainActivity extends AppCompatActivity {
                         temp.add(s);
                     }
                 }
+                for(String s:temp)
+                {
+                    String[] t = s.split("\\.");
+                    courses.add(new Course("ACEN "+t[0],t[t.length-1],t[1]));
+                }
+                Log.wtf(LOG,courses.toString());
 
-                Log.wtf(LOG, temp.toString());
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -29,7 +29,7 @@ public class Course {
 
     public String toString()
     {
-        return "";
+        return "Course: "+courseNum+ ", Professor: "+ professor+ ", Desctiption: "+description;
     }
 
 
