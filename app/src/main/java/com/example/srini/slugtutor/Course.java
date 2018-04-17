@@ -5,33 +5,27 @@ public class Course {
     private String professor;
     private String description;
 
-    public Course(String courseNum, String professor, String description)
-    {
-        this.courseNum=courseNum;
-        this.professor=professor;
-        this.description=description;
+    public Course(String courseNum, String professor, String description) {
+        this.courseNum = courseNum;
+        this.professor = professor;
+        this.description = description;
     }
 
-    public String getCourseNum()
-    {
+    public String getCourseNum() {
         return courseNum;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public String getProfessor()
-    {
+    public String getProfessor() {
         return professor;
     }
 
-    public String toString()
-    {
-        return "Course: "+courseNum+ ", Professor: "+ professor+ ", Desctiption: "+description;
+    public String toString() {
+        return "Course: " + courseNum + ", Professor: " + professor + ", Description: " + description;
     }
-
 
 
 }
