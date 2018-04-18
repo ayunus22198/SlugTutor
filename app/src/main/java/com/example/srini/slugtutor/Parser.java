@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 
 public class Parser extends AsyncTask<Void, Void, Void> {
-    public ArrayList<Course> courses;
+    public static ArrayList<Course> courses;
 
     @Override
     protected void onPreExecute() {
@@ -18,6 +18,17 @@ public class Parser extends AsyncTask<Void, Void, Void> {
 
     }
 
+    public static ArrayList<Course> getCoursesArr(){
+        ArrayList<Course> duplicate = new ArrayList<Course>();
+        for(int i = 0;i<courses.size();i++)
+        {
+            if(!courses.get(i).equals(null) && !courses.get(i).getProfessor().toLowerCase().trim().equals("not offered"))
+            {
+                duplicate.add(courses.get(i));
+            }
+        }
+        return duplicate;
+    }
     @Override
     protected Void doInBackground(Void... params) {
         String url = "https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/cmps.html";
