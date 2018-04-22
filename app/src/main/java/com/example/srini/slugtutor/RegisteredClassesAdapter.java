@@ -2,6 +2,7 @@ package com.example.srini.slugtutor;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +51,19 @@ public class RegisteredClassesAdapter extends ArrayAdapter<Course>  {
 
             // Toast.makeText(getContext(), "null", Toast.LENGTH_LONG).show();
         }
-        Course iteminlist = items.get(position);
+        final Course iteminlist = items.get(position);
         if(iteminlist != null && iteminlist.getCourseNum() != null && iteminlist.getProfessor()!=null &&  !iteminlist.getProfessor().toLowerCase().equals("not offered")) {
             if(holder != null) {
                 holder.className.setText("Course: " + iteminlist.getCourseNum());
                 holder.classTeacher.setText("Teacher: " + iteminlist.getProfessor());
-
+                v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(context, TabGroupActivity.class);
+                        i.putExtra("classData", iteminlist.toString());
+                        context.startActivity(new Intent(context, TabGroupActivity.class));
+                    }
+                });
             }
         }
         return v;
