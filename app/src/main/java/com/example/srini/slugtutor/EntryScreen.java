@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.srini.slugtutor.ListOfClasses.getUserCourses;
 
@@ -25,6 +26,7 @@ public class EntryScreen extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entry_screen);
+
         c = this;
 
         fb = findViewById(R.id.floatingActionButton);
