@@ -92,6 +92,8 @@ public class Parser extends AsyncTask<Void, Void, Void> {
     public static ArrayList<Course> writ=new ArrayList<Course>();
     public static ArrayList<Course> yidd=new ArrayList<Course>();
 
+    public static ArrayList<Course> courses=new ArrayList<Course>();
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -100,11 +102,11 @@ public class Parser extends AsyncTask<Void, Void, Void> {
 
     public static ArrayList<Course> getCoursesArr(){
         ArrayList<Course> duplicate = new ArrayList<Course>();
-        for(int i = 0;i<cmps.size();i++)
+        for(int i = 0;i<courses.size();i++)
         {
-            if(!cmps.get(i).equals(null) && !cmps.get(i).getProfessor().toLowerCase().trim().equals("not offered"))
+            if(!courses.get(i).equals(null) && !courses.get(i).getProfessor().toLowerCase().trim().equals("not offered"))
             {
-                duplicate.add(cmps.get(i));
+                duplicate.add(courses.get(i));
             }
         }
         return duplicate;
@@ -226,8 +228,10 @@ public class Parser extends AsyncTask<Void, Void, Void> {
                 String[] t = s.split("\\.");
                 if (t[2].contains("notoffered")) {
                     list.add(new Course(name+" "+ t[0], "NOT OFFERED", "NOT OFFERED"));
+                    courses.add(new Course(name+" "+ t[0], "NOT OFFERED", "NOT OFFERED"));
                 } else {
                     list.add(new Course(name+" "+ t[0], t[t.length - 1]+" ".toUpperCase(), t[1]));
+                    courses.add(new Course(name+" "+ t[0], t[t.length - 1]+" ".toUpperCase(), t[1]));
                 }
 
             }
