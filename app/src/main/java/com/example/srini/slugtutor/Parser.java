@@ -9,6 +9,8 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Srini 
@@ -109,6 +111,12 @@ public class Parser extends AsyncTask<Void, Void, Void> {
                 duplicate.add(courses.get(i));
             }
         }
+        Collections.sort(duplicate, new Comparator<Course>() {
+            @Override
+            public int compare(Course u1, Course u2) {
+                return u1.getCourseNum().compareToIgnoreCase(u2.getCourseNum());
+            }
+        });
         return duplicate;
     }
     @Override
