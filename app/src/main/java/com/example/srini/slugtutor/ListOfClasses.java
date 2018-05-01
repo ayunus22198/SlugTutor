@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static com.example.srini.slugtutor.Parser.getCoursesArr;
 
@@ -184,6 +185,7 @@ public class ListOfClasses  extends AppCompatActivity implements android.widget.
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }
 
 
