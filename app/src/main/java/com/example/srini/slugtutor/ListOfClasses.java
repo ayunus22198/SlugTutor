@@ -55,33 +55,45 @@ public class ListOfClasses  extends AppCompatActivity implements android.widget.
             @Override
             public void onClick(View v) {
                 if(checkedItems.size() == 0) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(ListOfClasses.this).create();
-                    alertDialog.setTitle("No Submitted Classes");
-                    alertDialog.setMessage("You haven't submitted any classes. Are you sure you want to proceed?");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(getApplicationContext(), EntryScreen.class);
-                                    startActivity(i);
-                                }
-                            });
-                    alertDialog.show();
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ListOfClasses.this);
+                    alertDialog.setTitle("You have no submitted classes. Are you suer you want to proceed?");
+                    alertDialog.setMessage(stringify());
+                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            setDisplayedClassesProperly();
+                            Intent i = new Intent(getApplicationContext(), EntryScreen.class);
+                            startActivity(i);
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert = alertDialog.create();
+                    alert.show();
                 }
                 else
                 {
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(ListOfClasses.this).create();
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ListOfClasses.this);
                     alertDialog.setTitle("Submitted Classes");
                     alertDialog.setMessage(stringify());
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
+                    alertDialog.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     setDisplayedClassesProperly();
                                     Intent i = new Intent(getApplicationContext(), EntryScreen.class);
                                     startActivity(i);
                                 }
-                            });
-                    alertDialog.show();
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                    });
+                    AlertDialog alert = alertDialog.create();
+                    alert.show();
                 }
 
             }
