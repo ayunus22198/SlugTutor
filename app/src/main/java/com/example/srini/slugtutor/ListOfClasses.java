@@ -4,8 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -42,6 +47,7 @@ public class ListOfClasses  extends AppCompatActivity implements android.widget.
             checkedItems.clear();
         }
         arr = getCoursesArr();
+
         final ListOfClassesAdapter classesDisplay = new ListOfClassesAdapter(c, arr);
         lv.setAdapter(classesDisplay);
         submit.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +144,44 @@ public class ListOfClasses  extends AppCompatActivity implements android.widget.
             {
                 checkedItemsToDisplay.add(checkedItems.get(i));
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.example_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id) {
+            case R.id.classesTransition:
+                if(item.isChecked()) {
+                    item.setChecked(false);
+                }
+                else {
+                    item.setChecked(true);
+                }
+            case R.id.listingsTransition:
+                if(item.isChecked()) {
+                    item.setChecked(false);
+                    Intent i = new Intent(ListOfClasses.this, Listings.class);
+                    startActivity(i);
+                }
+                else {
+                    item.setChecked(true);
+                }
+            case R.id.transitionMenu:
+                if(item.isChecked()) {
+                    item.setChecked(false);
+                }
+                else {
+                    item.setChecked(true);
+                }
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

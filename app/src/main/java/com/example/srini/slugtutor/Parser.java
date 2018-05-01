@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Parser extends AsyncTask<Void, Void, Void> {
     public static ArrayList<Course> courses;
@@ -55,6 +56,9 @@ public class Parser extends AsyncTask<Void, Void, Void> {
                     temp.add(s);
                 }
             }
+
+
+
             for (String s : temp) {
                 String[] t = s.split("\\.");
                 if (t[2].contains("notoffered")) {
