@@ -2,6 +2,7 @@ package com.example.srini.slugtutor;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,46 +21,30 @@ import java.util.List;
 
 public class ListOfClassesAdapter extends ArrayAdapter<Course>  {
     private Activity context;
-    private ArrayList<Course> items;
+    private List<Course> items;
 
 
-    public ListOfClassesAdapter(Activity context, ArrayList<Course> items) {
+    public ListOfClassesAdapter(Activity context, List<Course> items) {
         super(context, R.layout.list_of_classes_cell, items);
         this.context = context;
         this.items = items;
-    }
-
-    private static class ListOfClassesHolder {
-        public TextView className;
-        public TextView classTeacher;
-        public CheckBox checked;
+        for(Course i: items) {
+            Log.i("Course==> ", i.toString() + "\n");
+        }
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        ListOfClassesHolder holder = new ListOfClassesHolder();
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.list_of_classes_cell, null);
-            holder.className = (TextView) v.findViewById(R.id.className);
-            holder.classTeacher = (TextView) v.findViewById(R.id.teacherName);
-            holder.checked = (CheckBox) v.findViewById(R.id.checkBox);
-        } else {
-            holder = (ListOfClassesHolder) v.getTag();
+        if(convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_of_classes_cell, parent, false);
         }
-        if(holder == null) {
 
-            // Toast.makeText(getContext(), "null", Toast.LENGTH_LONG).show();
-        }
-        Course iteminlist = items.get(position);
-        if(iteminlist != null && iteminlist.getCourseNum() != null && iteminlist.getProfessor()!=null &&  !iteminlist.getProfessor().toLowerCase().equals("not offered")) {
-            if(holder != null) {
-                holder.className.setText("Course: " + iteminlist.getCourseNum());
-                holder.classTeacher.setText("Teacher: " + iteminlist.getProfessor());
-                holder.checked.setOnCheckedChangeListener((ListOfClasses) context );
-            }
-        }
-        return v;
+        final TextView className = (TextView) convertView.findViewById(R.id.className);
+        final TextView classTeacher = (TextView) convertView.findViewById(R.id.teacherName);
+        final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
+        className.setText(items.get(position).getCourseNum());
+        classTeacher.setText(items.get(position).getProfessor());
+        checkBox.setOnCheckedChangeListener((ListOfClasses) context);
+        return convertView;
     }
 
 }

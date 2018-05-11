@@ -6,7 +6,6 @@
     android:layout_weight="10"
     tools:context=".MainActivity" >
 
-
     <SearchView
         android:id="@+id/searchQuery"
         android:layout_width="match_parent"

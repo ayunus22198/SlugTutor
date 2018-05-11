@@ -61,7 +61,6 @@ public class FirebaseService {
 
                 callback.callback(courses);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
@@ -69,7 +68,6 @@ public class FirebaseService {
                 // ...
             }
         };
-
         coursesReference.addListenerForSingleValueEvent(postListener);
     }
 
@@ -184,7 +182,4 @@ public class FirebaseService {
 
         FirebaseDatabase.getInstance().getReference("listings").child(type).child("name").setValue(name);
     }
-
-
-
 }
