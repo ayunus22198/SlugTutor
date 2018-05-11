@@ -134,6 +134,71 @@ public class FirebaseService {
         coursesReference.addListenerForSingleValueEvent(postListener);
     }
 
+    public void getStudentListings(final CallbackListings callback) {
+        DatabaseReference coursesReference = FirebaseDatabase.getInstance().getReference("listings")
+                .child("students");
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                processListings(dataSnapshot, callback);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        coursesReference.addListenerForSingleValueEvent(postListener);
+    }
+
+    public void getGroupListings(final CallbackListings callback) {
+        DatabaseReference coursesReference = FirebaseDatabase.getInstance().getReference("listings")
+                .child("groups");
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                processListings(dataSnapshot, callback);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        coursesReference.addListenerForSingleValueEvent(postListener);
+    }
+
+    public void getTutorListings(final CallbackListings callback) {
+        DatabaseReference coursesReference = FirebaseDatabase.getInstance().getReference("listings")
+                .child("tutors");
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                processListings(dataSnapshot, callback);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        coursesReference.addListenerForSingleValueEvent(postListener);
+    }
+
+
+
     private void processListings(DataSnapshot dataSnapshot, CallbackListings callback) {
         List<Listing> listings = new ArrayList<>();
         for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -180,6 +245,11 @@ public class FirebaseService {
         FirebaseDatabase.getInstance().getReference("users").child(getUserID())
                 .child("listings").child(type).child(uuid).child("name").setValue(name);
 
-        FirebaseDatabase.getInstance().getReference("listings").child(type).child("name").setValue(name);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("listings").child(type)
+                .child(uuid);
+
+        databaseReference.child("name").setValue(name);
+        databaseReference.child("owner").setValue(getUserID());
+
     }
 }
