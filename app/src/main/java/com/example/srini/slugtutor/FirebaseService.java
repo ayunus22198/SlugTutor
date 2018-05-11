@@ -177,8 +177,14 @@ public class FirebaseService {
     }
 
     private void addListing(String type, String name) {
+        String uuid = UUID.randomUUID().toString();
+
         FirebaseDatabase.getInstance().getReference("users").child(getUserID())
-                .child("listings").child(type).child(UUID.randomUUID().toString()).child("name").setValue(name);
+                .child("listings").child(type).child(uuid).child("name").setValue(name);
+
+        FirebaseDatabase.getInstance().getReference("listings").child(type).child("name").setValue(name);
     }
+
+
 
 }
