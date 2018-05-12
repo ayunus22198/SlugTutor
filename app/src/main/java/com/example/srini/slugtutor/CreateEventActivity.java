@@ -24,10 +24,8 @@ public class CreateEventActivity extends AppCompatActivity {
         final Button enter = findViewById(R.id.button2);
         Button b = findViewById(R.id.button2);
 
-        final String s = text.getText().toString();
         Intent i = getIntent();
         final String type = i.getStringExtra("type");
-        Toast.makeText(this,type, Toast.LENGTH_LONG).show();
 
         final FirebaseService firebaseService = new FirebaseService();
 
@@ -38,19 +36,19 @@ public class CreateEventActivity extends AppCompatActivity {
                 {
                     Intent i = new Intent(context,TabStudentActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    firebaseService.addStudentListing(s);
+                    firebaseService.addStudentListing(text.getText().toString());
                     startActivity(i);
                 }
                 else if(type.equals("group"))
                 {
                     Intent i = new Intent(context,TabGroupActivity.class);
-                    firebaseService.addGroupListing(s);
+                    firebaseService.addGroupListing(text.getText().toString());
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }
                 else if(type.equals("tutor")) {
                     Intent i = new Intent(context, TabTutorActivity.class);
-                    firebaseService.addTutorListing(s);
+                    firebaseService.addTutorListing(text.getText().toString());
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }
