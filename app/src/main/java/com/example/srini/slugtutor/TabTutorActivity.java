@@ -6,8 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import java.util.List;
 
 public class TabTutorActivity extends AppCompatActivity {
 
@@ -28,6 +31,17 @@ public class TabTutorActivity extends AppCompatActivity {
         final View navigator = findViewById(R.id.navigator);
         final Button studentButton = navigator.findViewById(R.id.student_button);
         final Button groupButton = navigator.findViewById(R.id.group_button);
+
+        FirebaseService firebaseService = new FirebaseService();
+
+        firebaseService.getTutorListings(new CallbackListings() {
+            @Override
+            public void callback(List<Listing> listings) {
+                ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                listView.setAdapter(adapter);
+            }
+
+        });
 
         studentButton.setOnClickListener(new View.OnClickListener() {
             @Override
