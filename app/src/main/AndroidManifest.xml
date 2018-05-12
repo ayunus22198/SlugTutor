@@ -35,6 +35,8 @@
             android:name=".TabTutorActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".CreateEventActivity">
+        </activity>
     </application>
 
 </manifest>

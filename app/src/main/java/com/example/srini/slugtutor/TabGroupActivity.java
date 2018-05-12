@@ -33,6 +33,7 @@ public class TabGroupActivity extends AppCompatActivity {
         final View navigator = findViewById(R.id.navigator);
         final Button studentButton = navigator.findViewById(R.id.student_button);
         final Button tutorButton = navigator.findViewById(R.id.tutor_button);
+        final Button postingButton = findViewById(R.id.posting);
 
         FirebaseService firebaseService = new FirebaseService();
 
@@ -58,6 +59,16 @@ public class TabGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(TabGroupActivity.this, TabTutorActivity.class));
                 finish();
+            }
+        });
+
+        postingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context,CreateEventActivity.class);
+                i.putExtra("type","group");
+                startActivity(i);
+
             }
         });
 

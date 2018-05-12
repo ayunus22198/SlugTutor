@@ -1,5 +1,6 @@
 package com.example.srini.slugtutor;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +14,7 @@ import android.widget.ListView;
 import java.util.List;
 
 public class TabStudentActivity extends AppCompatActivity {
-
+    private final Context context = this;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); setContentView(R.layout.activity_tab);
@@ -30,6 +31,7 @@ public class TabStudentActivity extends AppCompatActivity {
         final View navigator = findViewById(R.id.navigator);
         final Button groupButton = navigator.findViewById(R.id.group_button);
         final Button tutorButton = navigator.findViewById(R.id.tutor_button);
+        final Button postingButton = findViewById(R.id.posting);
 
         FirebaseService firebaseService = new FirebaseService();
 
@@ -55,6 +57,16 @@ public class TabStudentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(TabStudentActivity.this, TabTutorActivity.class));
                 finish();
+            }
+        });
+
+        postingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context,CreateEventActivity.class);
+                i.putExtra("type","student");
+                startActivity(i);
+
             }
         });
     }

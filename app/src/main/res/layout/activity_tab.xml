@@ -15,6 +15,12 @@
         app:popupTheme="@style/AppTheme.PopupOverlay">
     </android.support.v7.widget.Toolbar>
 
+    <Button
+        android:id="@+id/posting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Posting" />
+
     <ListView
         android:id="@+id/listView"
         android:layout_weight="1"
