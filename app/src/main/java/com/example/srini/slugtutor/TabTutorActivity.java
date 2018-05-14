@@ -15,6 +15,8 @@ import java.util.List;
 
 public class TabTutorActivity extends AppCompatActivity {
     private final Context context = this;
+    private String isUser;
+    private boolean decision;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +28,9 @@ public class TabTutorActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Tutors");
         toolbar.setSubtitle("LocSilence");
 
-        System.out.println(getIntent().getParcelableExtra("classData"));
-
+        //System.out.println(getIntent().getParcelableExtra("classData"));
+        isUser = getIntent().getStringExtra("isUser");
+        decision = Boolean.valueOf(isUser);
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
         final Button studentButton = navigator.findViewById(R.id.student_button);
@@ -35,28 +38,31 @@ public class TabTutorActivity extends AppCompatActivity {
         final Button postingButton = findViewById(R.id.posting);
 
         FirebaseService firebaseService = new FirebaseService();
+        if(!decision) {
+            firebaseService.getTutorListings(new CallbackListings() {
+                @Override
+                public void callback(List<Listing> listings) {
+                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    listView.setAdapter(adapter);
+                }
 
-        firebaseService.getTutorListings(new CallbackListings() {
-            @Override
-            public void callback(List<Listing> listings) {
-                ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
-                listView.setAdapter(adapter);
-            }
-
-        });
-
-        studentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(TabTutorActivity.this, TabStudentActivity.class));
-                finish();
-            }
-        });
-
+            });
+        }
+        else {
+            studentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(TabTutorActivity.this, TabTutorActivity.class);
+                    i.putExtra("isUser", isUser);
+                    finish();
+                }
+            });
+        }
         groupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(TabTutorActivity.this, TabGroupActivity.class));
+                Intent i = new Intent(TabTutorActivity.this, TabGroupActivity.class);
+                i.putExtra("isUser", isUser);
                 finish();
             }
         });

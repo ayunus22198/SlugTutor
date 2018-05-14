@@ -61,6 +61,7 @@ public class RegisteredClassesAdapter extends ArrayAdapter<Course>  {
                     public void onClick(View view) {
                         Intent i = new Intent(context, TabGroupActivity.class);
                         i.putExtra("classData", iteminlist.toString());
+                        i.putExtra("isUser", "false");
                         context.startActivity(new Intent(context, TabGroupActivity.class));
                     }
                 });

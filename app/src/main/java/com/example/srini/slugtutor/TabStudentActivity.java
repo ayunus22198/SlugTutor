@@ -15,6 +15,8 @@ import java.util.List;
 
 public class TabStudentActivity extends AppCompatActivity {
     private final Context context = this;
+    private String isUser;
+    private boolean decision;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); setContentView(R.layout.activity_tab);
@@ -27,6 +29,8 @@ public class TabStudentActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Students");
         toolbar.setSubtitle("LocSilence");
 
+        isUser = getIntent().getStringExtra("isUser");
+        decision = Boolean.valueOf(isUser);
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
         final Button groupButton = navigator.findViewById(R.id.group_button);
@@ -34,20 +38,31 @@ public class TabStudentActivity extends AppCompatActivity {
         final Button postingButton = findViewById(R.id.posting);
 
         FirebaseService firebaseService = new FirebaseService();
+        if(!decision) {
+            firebaseService.getStudentListings(new CallbackListings() {
+                @Override
+                public void callback(List<Listing> listings) {
+                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    listView.setAdapter(adapter);
+                }
 
-        firebaseService.getStudentListings(new CallbackListings() {
-            @Override
-            public void callback(List<Listing> listings) {
-                ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
-                listView.setAdapter(adapter);
-            }
+            });
+        }
+        else {
+            firebaseService.getUserStudentListings(new CallbackListings() {
+                @Override
+                public void callback(List<Listing> listings) {
+                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    listView.setAdapter(adapter);
+                }
 
-        });
-
+            });
+        }
         groupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(TabStudentActivity.this, TabGroupActivity.class));
+                Intent i = new Intent(TabStudentActivity.this, TabGroupActivity.class);
+                i.putExtra("isUser", isUser);
                 finish();
             }
         });
@@ -55,7 +70,8 @@ public class TabStudentActivity extends AppCompatActivity {
         tutorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(TabStudentActivity.this, TabTutorActivity.class));
+                Intent i = new Intent(TabStudentActivity.this, TabTutorActivity.class);
+                i.putExtra("isUser", isUser);
                 finish();
             }
         });
