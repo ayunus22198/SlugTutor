@@ -1,6 +1,11 @@
 package com.example.srini.slugtutor;
 
-public class Course {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Course implements Serializable {
 
     private String id;
     private String name;
@@ -77,4 +82,5 @@ public class Course {
     public void setProfessor(String professor) {
         this.professor = professor;
     }
+
 }

@@ -3,6 +3,7 @@ package com.example.srini.slugtutor;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,9 +63,10 @@ public class RegisteredClassesAdapter extends ArrayAdapter<Course>  {
                     @Override
                     public void onClick(View view) {
                         Intent i = new Intent(context, TabGroupActivity.class);
-                        i.putExtra("classData", iteminlist.toString());
+                        System.out.println(iteminlist);
+                        i.putExtra("classData", iteminlist);
                         i.putExtra("isUser", "false");
-                        context.startActivity(new Intent(context, TabGroupActivity.class));
+                        context.startActivity(i);
                     }
                 });
             }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,12 +23,13 @@ public class TabStudentActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); setContentView(R.layout.activity_tab);
 
-        System.out.println(getIntent().getParcelableExtra("classData"));
+        final Course classData = (Course)getIntent().getSerializableExtra("classData");
+        System.out.println(classData);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         // Set Basic ui
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Students");
+        getSupportActionBar().setTitle(classData.getCourseNum() + " - Students");
         toolbar.setSubtitle("LocSilence");
 
         isUser = getIntent().getStringExtra("isUser");
@@ -35,7 +38,9 @@ public class TabStudentActivity extends AppCompatActivity {
         final View navigator = findViewById(R.id.navigator);
         final Button groupButton = navigator.findViewById(R.id.group_button);
         final Button tutorButton = navigator.findViewById(R.id.tutor_button);
-        final Button postingButton = findViewById(R.id.posting);
+        final Button studentButton = navigator.findViewById(R.id.student_button);
+        studentButton.setBackground(ContextCompat.getDrawable(this, R.drawable.tab_main_background));
+        final FloatingActionButton postingButton = findViewById(R.id.floatingActionButton);
 
         FirebaseService firebaseService = new FirebaseService();
         if(!decision) {
@@ -63,8 +68,10 @@ public class TabStudentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(TabStudentActivity.this, TabGroupActivity.class);
                 i.putExtra("isUser", isUser);
+                i.putExtra("classData", classData);
                 startActivity(i);
                 finish();
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         });
 
@@ -73,8 +80,10 @@ public class TabStudentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(TabStudentActivity.this, TabTutorActivity.class);
                 i.putExtra("isUser", isUser);
+                i.putExtra("classData", classData);
                 startActivity(i);
                 finish();
+                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         });
 
@@ -83,9 +92,9 @@ public class TabStudentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(context,CreateEventActivity.class);
                 i.putExtra("type","student");
+                i.putExtra("classData", classData);
                 startActivity(i);
                 finish();
-
             }
         });
     }

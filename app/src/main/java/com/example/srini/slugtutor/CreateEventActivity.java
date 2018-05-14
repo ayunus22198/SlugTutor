@@ -14,12 +14,14 @@ import android.widget.Toast;
 public class CreateEventActivity extends AppCompatActivity {
 
     private final Context context = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_event_activity);
 
+        final Course classData = getIntent().getParcelableExtra("classData");
         final EditText text = findViewById(R.id.editText);
         final Button enter = findViewById(R.id.button2);
         Button b = findViewById(R.id.button2);
@@ -32,25 +34,26 @@ public class CreateEventActivity extends AppCompatActivity {
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(type.equals("student"))
-                {
-                    Intent i = new Intent(context,TabStudentActivity.class);
+                if (!text.getText().toString().equals("")) {
+                    Intent i = new Intent();
+                    switch (type) {
+                        case "student":
+                            i = new Intent(context, TabStudentActivity.class);
+                            firebaseService.addStudentListing(text.getText().toString());
+                            break;
+                        case "group":
+                            i = new Intent(context, TabGroupActivity.class);
+                            firebaseService.addGroupListing(text.getText().toString());
+                            break;
+                        case "tutor":
+                            i = new Intent(context, TabTutorActivity.class);
+                            firebaseService.addTutorListing(text.getText().toString());
+                            break;
+                    }
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    firebaseService.addStudentListing(text.getText().toString());
+                    i.putExtra("classData", classData);
                     startActivity(i);
-                }
-                else if(type.equals("group"))
-                {
-                    Intent i = new Intent(context,TabGroupActivity.class);
-                    firebaseService.addGroupListing(text.getText().toString());
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                }
-                else if(type.equals("tutor")) {
-                    Intent i = new Intent(context, TabTutorActivity.class);
-                    firebaseService.addTutorListing(text.getText().toString());
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
+                    finish();
                 }
 
             }

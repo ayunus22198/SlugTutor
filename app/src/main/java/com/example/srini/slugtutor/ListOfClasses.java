@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -55,24 +56,25 @@ public class ListOfClasses  extends AppCompatActivity implements android.widget.
             @Override
             public void onClick(View v) {
                 if(checkedItems.size() == 0) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ListOfClasses.this);
-                    alertDialog.setTitle("You have no submitted classes. Are you suer you want to proceed?");
-                    alertDialog.setMessage(stringify());
-                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            setDisplayedClassesProperly();
-                            Intent i = new Intent(getApplicationContext(), EntryScreen.class);
-                            startActivity(i);
-                        }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    AlertDialog alert = alertDialog.create();
-                    alert.show();
+                    Toast.makeText(c, "You must select at least one class.", Toast.LENGTH_SHORT).show();
+//                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ListOfClasses.this);
+//                    alertDialog.setTitle("You have no submitted classes. Are you sure you want to proceed?");
+//                    alertDialog.setMessage(stringify());
+//                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            setDisplayedClassesProperly();
+//                            Intent i = new Intent(getApplicationContext(), EntryScreen.class);
+//                            startActivity(i);
+//                        }
+//                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.cancel();
+//                        }
+//                    });
+//                    AlertDialog alert = alertDialog.create();
+//                    alert.show();
                 }
                 else
                 {
