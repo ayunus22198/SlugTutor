@@ -21,7 +21,8 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_event_activity);
 
-        final Course classData = getIntent().getParcelableExtra("classData");
+        final Course classData = (Course)getIntent().getSerializableExtra("classData");
+        System.out.println(classData);
         final EditText text = findViewById(R.id.editText);
         final Button enter = findViewById(R.id.button2);
         Button b = findViewById(R.id.button2);
@@ -50,8 +51,8 @@ public class CreateEventActivity extends AppCompatActivity {
                             firebaseService.addTutorListing(text.getText().toString());
                             break;
                     }
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     i.putExtra("classData", classData);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                     finish();
                 }
