@@ -63,6 +63,7 @@ public class TabStudentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(TabStudentActivity.this, TabGroupActivity.class);
                 i.putExtra("isUser", isUser);
+                startActivity(i);
                 finish();
             }
         });
@@ -72,6 +73,7 @@ public class TabStudentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(TabStudentActivity.this, TabTutorActivity.class);
                 i.putExtra("isUser", isUser);
+                startActivity(i);
                 finish();
             }
         });
@@ -82,6 +84,7 @@ public class TabStudentActivity extends AppCompatActivity {
                 Intent i = new Intent(context,CreateEventActivity.class);
                 i.putExtra("type","student");
                 startActivity(i);
+                finish();
 
             }
         });

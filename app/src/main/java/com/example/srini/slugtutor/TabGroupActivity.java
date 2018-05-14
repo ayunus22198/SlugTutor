@@ -86,6 +86,7 @@ public class TabGroupActivity extends AppCompatActivity {
                 Intent i = new Intent(context,CreateEventActivity.class);
                 i.putExtra("type","group");
                 startActivity(i);
+                finish();
 
             }
         });

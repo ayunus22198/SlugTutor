@@ -49,20 +49,30 @@ public class TabTutorActivity extends AppCompatActivity {
             });
         }
         else {
-            studentButton.setOnClickListener(new View.OnClickListener() {
+            firebaseService.getUserTutorListings(new CallbackListings() {
                 @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(TabTutorActivity.this, TabTutorActivity.class);
-                    i.putExtra("isUser", isUser);
-                    finish();
+                public void callback(List<Listing> listings) {
+                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    listView.setAdapter(adapter);
                 }
+
             });
         }
+        studentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(TabTutorActivity.this, TabStudentActivity.class);
+                i.putExtra("isUser", isUser);
+                startActivity(i);
+                finish();
+            }
+        });
         groupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(TabTutorActivity.this, TabGroupActivity.class);
                 i.putExtra("isUser", isUser);
+                startActivity(i);
                 finish();
             }
         });
@@ -73,6 +83,7 @@ public class TabTutorActivity extends AppCompatActivity {
                 Intent i = new Intent(context,CreateEventActivity.class);
                 i.putExtra("type","tutor");
                 startActivity(i);
+
 
             }
         });
