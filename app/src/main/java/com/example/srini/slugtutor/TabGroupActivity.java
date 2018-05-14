@@ -24,18 +24,20 @@ public class TabGroupActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
-
+        isUser = getIntent().getStringExtra("isUser");
+        decision = Boolean.valueOf(isUser);
         final Course classData = (Course)getIntent().getSerializableExtra("classData");
         System.out.println(classData);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         // Set Basic ui
         setSupportActionBar(toolbar);
+        if(classData != null)
         getSupportActionBar().setTitle(classData.getCourseNum() + " - Group");
         toolbar.setSubtitle("LocSilence");
        //     System.out.println(getIntent().getParcelableExtra("classData"));
-        isUser = getIntent().getStringExtra("isUser");
-        decision = Boolean.valueOf(isUser);
+       // isUser = getIntent().getStringExtra("isUser");
+
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
         final Button studentButton = navigator.findViewById(R.id.student_button);
