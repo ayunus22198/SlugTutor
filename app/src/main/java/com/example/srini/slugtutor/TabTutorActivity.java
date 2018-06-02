@@ -50,7 +50,7 @@ public class TabTutorActivity extends AppCompatActivity {
             firebaseService.getTutorListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
                 }
 
@@ -71,7 +71,7 @@ public class TabTutorActivity extends AppCompatActivity {
             firebaseService.getUserTutorListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
                 }
 
