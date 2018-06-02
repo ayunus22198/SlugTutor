@@ -48,7 +48,7 @@ public class TabStudentActivity extends AppCompatActivity {
             firebaseService.getStudentListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
                 }
 
@@ -58,7 +58,7 @@ public class TabStudentActivity extends AppCompatActivity {
             firebaseService.getUserStudentListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
                 }
 
