@@ -53,6 +53,16 @@ public class TabStudentActivity extends AppCompatActivity {
                 }
 
             });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context,CreateEventActivity.class);
+                    i.putExtra("type","student");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
+            });
         }
         else {
             firebaseService.getUserStudentListings(new CallbackListings() {
@@ -62,6 +72,16 @@ public class TabStudentActivity extends AppCompatActivity {
                     listView.setAdapter(adapter);
                 }
 
+            });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context,CreateEventActivityThroughUser.class);
+                    i.putExtra("type","student");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
             });
         }
         groupButton.setOnClickListener(new View.OnClickListener() {
@@ -85,17 +105,6 @@ public class TabStudentActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-            }
-        });
-
-        postingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context,CreateEventActivity.class);
-                i.putExtra("type","student");
-                i.putExtra("classData", classData);
-                startActivity(i);
-                finish();
             }
         });
     }

@@ -55,6 +55,17 @@ public class TabTutorActivity extends AppCompatActivity {
                 }
 
             });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context,CreateEventActivity.class);
+                    i.putExtra("type","tutor");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
+            });
+
         }
         else {
             firebaseService.getUserTutorListings(new CallbackListings() {
@@ -65,6 +76,17 @@ public class TabTutorActivity extends AppCompatActivity {
                 }
 
             });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context,CreateEventActivityThroughUser.class);
+                    i.putExtra("type","tutor");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
+            });
+
         }
         studentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,16 +111,6 @@ public class TabTutorActivity extends AppCompatActivity {
             }
         });
 
-        postingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context,CreateEventActivity.class);
-                i.putExtra("type","tutor");
-                i.putExtra("classData", classData);
-                startActivity(i);
-                finish();
-            }
-        });
 
 
     }

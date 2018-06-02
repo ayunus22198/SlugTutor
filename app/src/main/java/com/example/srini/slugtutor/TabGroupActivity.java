@@ -35,8 +35,8 @@ public class TabGroupActivity extends AppCompatActivity {
         if(classData != null)
         getSupportActionBar().setTitle(classData.getCourseNum() + " - Group");
         toolbar.setSubtitle("LocSilence");
-       //     System.out.println(getIntent().getParcelableExtra("classData"));
-       // isUser = getIntent().getStringExtra("isUser");
+        //  System.out.println(getIntent().getParcelableExtra("classData"));
+        //isUser = getIntent().getStringExtra("isUser");
 
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
@@ -57,6 +57,16 @@ public class TabGroupActivity extends AppCompatActivity {
                 }
 
             });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context,CreateEventActivity.class);
+                    i.putExtra("type","group");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
+            });
         }
         else
             {
@@ -68,6 +78,16 @@ public class TabGroupActivity extends AppCompatActivity {
                 }
 
             });
+                postingButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(context,CreateEventActivityThroughUser.class);
+                        i.putExtra("type","group");
+                        i.putExtra("classData", classData);
+                        startActivity(i);
+                        finish();
+                    }
+                });
         }
         studentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,16 +113,7 @@ public class TabGroupActivity extends AppCompatActivity {
             }
         });
 
-        postingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context,CreateEventActivity.class);
-                i.putExtra("type","group");
-                i.putExtra("classData", classData);
-                startActivity(i);
-                finish();
-            }
-        });
+
 
     }
 }
