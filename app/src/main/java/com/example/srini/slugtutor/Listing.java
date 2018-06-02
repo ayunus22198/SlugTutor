@@ -4,6 +4,7 @@ public class Listing {
 
     private String id;
     private String name;
+    private String description;
 
     public Listing() {}
 

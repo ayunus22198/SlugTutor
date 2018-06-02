@@ -1,6 +1,7 @@
 package com.example.srini.slugtutor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -10,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -55,13 +58,22 @@ public class CustomAdapter extends BaseAdapter {
             holder.headlineView = (TextView) convertView.findViewById(R.id.title);
             holder.reporterNameView = (TextView) convertView.findViewById(R.id.reporter);
             holder.reportedDateView = (TextView) convertView.findViewById(R.id.date);
+            holder.claim = (Button)convertView.findViewById(R.id.button3);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Listing song = (Listing) listData.get(position);
-        holder.headlineView.setText(song.getName());
-        holder.reporterNameView.setText(song.getId());
+        Listing l = (Listing) listData.get(position);
+        holder.headlineView.setText(l.getName());
+        holder.reporterNameView.setText(l.getId());
+
+        holder.claim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //claim listing
+                
+            }
+        });
 
         return convertView;
     }
@@ -70,7 +82,7 @@ public class CustomAdapter extends BaseAdapter {
         TextView headlineView;
         TextView reporterNameView;
         TextView reportedDateView;
-        ImageView imageView;
+        Button claim;
     }
 
 

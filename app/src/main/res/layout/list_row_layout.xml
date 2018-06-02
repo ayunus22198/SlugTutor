@@ -30,4 +30,14 @@
         android:layout_alignBottom="@+id/reporter"
         android:layout_alignParentRight="true" />
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="49dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:text="Claim"
+        android:textSize="8sp" />
+
 </RelativeLayout>
