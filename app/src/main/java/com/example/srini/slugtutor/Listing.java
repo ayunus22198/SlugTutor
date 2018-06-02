@@ -5,6 +5,7 @@ public class Listing {
     private String id;
     private String name;
     private Course course;
+    private String description;
 
     public Listing() {}
 

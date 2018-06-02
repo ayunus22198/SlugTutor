@@ -50,20 +50,40 @@ public class TabTutorActivity extends AppCompatActivity {
             firebaseService.getUserTutorListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
                 }
 
+            });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context,CreateEventActivityThroughUser.class);
+                    i.putExtra("type","tutor");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
             });
         }
         else {
             firebaseService.getCourseTutorListings(classData, new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
                 }
 
+            });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context,CreateEventActivity.class);
+                    i.putExtra("type","tutor");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
             });
         }
         studentButton.setOnClickListener(new View.OnClickListener() {
@@ -89,16 +109,6 @@ public class TabTutorActivity extends AppCompatActivity {
             }
         });
 
-        postingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context,CreateEventActivity.class);
-                i.putExtra("type","tutor");
-                i.putExtra("classData", classData);
-                startActivity(i);
-                finish();
-            }
-        });
 
 
     }

@@ -34,8 +34,9 @@ public class TabGroupActivity extends AppCompatActivity {
         if (classData != null)
             getSupportActionBar().setTitle(classData.getCourseNum() + " - Group");
         toolbar.setSubtitle("LocSilence");
-        //     System.out.println(getIntent().getParcelableExtra("classData"));
-        // isUser = getIntent().getStringExtra("isUser");
+
+        //  System.out.println(getIntent().getParcelableExtra("classData"));
+        //isUser = getIntent().getStringExtra("isUser");
 
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
@@ -50,19 +51,38 @@ public class TabGroupActivity extends AppCompatActivity {
             firebaseService.getUserGroupListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context, listings);
                     listView.setAdapter(adapter);
                 }
 
+            });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, CreateEventActivityThroughUser.class);
+                    i.putExtra("type", "group");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
             });
         } else {
             firebaseService.getCourseGroupListings(classData, new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context, listings);
                     listView.setAdapter(adapter);
                 }
-
+            });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, CreateEventActivity.class);
+                    i.putExtra("type", "group");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
             });
         }
         studentButton.setOnClickListener(new View.OnClickListener() {
@@ -86,17 +106,6 @@ public class TabGroupActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-            }
-        });
-
-        postingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context, CreateEventActivity.class);
-                i.putExtra("type", "group");
-                i.putExtra("classData", classData);
-                startActivity(i);
-                finish();
             }
         });
 

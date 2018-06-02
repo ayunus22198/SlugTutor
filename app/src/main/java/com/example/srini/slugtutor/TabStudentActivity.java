@@ -48,18 +48,38 @@ public class TabStudentActivity extends AppCompatActivity {
             firebaseService.getUserStudentListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
                 }
 
+            });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context,CreateEventActivityThroughUser.class);
+                    i.putExtra("type","student");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
+                }
             });
         }
         else {
             firebaseService.getCourseStudentListings(classData, new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
+                }
+            });
+            postingButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context,CreateEventActivity.class);
+                    i.putExtra("type","student");
+                    i.putExtra("classData", classData);
+                    startActivity(i);
+                    finish();
                 }
             });
         }
@@ -84,17 +104,6 @@ public class TabStudentActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-            }
-        });
-
-        postingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context,CreateEventActivity.class);
-                i.putExtra("type","student");
-                i.putExtra("classData", classData);
-                startActivity(i);
-                finish();
             }
         });
     }
