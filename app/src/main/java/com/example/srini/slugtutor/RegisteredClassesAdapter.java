@@ -24,10 +24,10 @@ import java.util.List;
 
 public class RegisteredClassesAdapter extends ArrayAdapter<Course>  {
     private Activity context;
-    private ArrayList<Course> items;
+    private List<Course> items;
 
 
-    public RegisteredClassesAdapter(Activity context, ArrayList<Course> items) {
+    public RegisteredClassesAdapter(Activity context, List<Course> items) {
         super(context, R.layout.user_classes, items);
         this.context = context;
         this.items = items;

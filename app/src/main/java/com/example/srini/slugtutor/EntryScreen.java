@@ -33,8 +33,16 @@ public class EntryScreen extends AppCompatActivity{
 
         fb = findViewById(R.id.floatingActionButton);
         lvRegClasses = findViewById(R.id.registered_classes);
-        adapter = new RegisteredClassesAdapter(c, regClasses);
-        lvRegClasses.setAdapter(adapter);
+
+        FirebaseService firebaseService = new FirebaseService();
+        firebaseService.getUserClasses(new CallbackCourses() {
+            @Override
+            public void callback(List<Course> courses) {
+                adapter = new RegisteredClassesAdapter(c, courses);
+                lvRegClasses.setAdapter(adapter);
+            }
+        });
+
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

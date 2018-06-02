@@ -85,8 +85,20 @@ public class ListOfClasses  extends AppCompatActivity implements android.widget.
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     setDisplayedClassesProperly();
-                                    Intent i = new Intent(getApplicationContext(), EntryScreen.class);
-                                    startActivity(i);
+                                    FirebaseService firebaseService = new FirebaseService();
+                                    for (int i = 0; i < checkedItemsToDisplay.size(); i++) {
+                                        final int count = i;
+                                        Course course = checkedItemsToDisplay.get(i);
+                                        firebaseService.addCourse(course, new Callback() {
+                                            @Override
+                                            public void callback() {
+                                                if (count == checkedItemsToDisplay.size() - 1) {
+                                                    Intent i = new Intent(getApplicationContext(), EntryScreen.class);
+                                                    startActivity(i);
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
