@@ -30,6 +30,7 @@ public class TabTutorActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         // Set Basic ui
         setSupportActionBar(toolbar);
+        if(classData != null)
         getSupportActionBar().setTitle(classData.getCourseNum() + " - Tutors");
         toolbar.setSubtitle("LocSilence");
 
