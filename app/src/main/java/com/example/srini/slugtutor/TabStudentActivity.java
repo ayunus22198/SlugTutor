@@ -18,7 +18,7 @@ import java.util.List;
 public class TabStudentActivity extends AppCompatActivity {
     private final Context context = this;
     private String isUser;
-    private boolean decision;
+    private boolean isUserListing;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); setContentView(R.layout.activity_tab);
@@ -34,7 +34,7 @@ public class TabStudentActivity extends AppCompatActivity {
         toolbar.setSubtitle("LocSilence");
 
         isUser = getIntent().getStringExtra("isUser");
-        decision = Boolean.valueOf(isUser);
+        isUserListing = Boolean.valueOf(isUser);
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
         final Button groupButton = navigator.findViewById(R.id.group_button);
@@ -44,8 +44,8 @@ public class TabStudentActivity extends AppCompatActivity {
         final FloatingActionButton postingButton = findViewById(R.id.floatingActionButton);
 
         FirebaseService firebaseService = new FirebaseService();
-        if(!decision) {
-            firebaseService.getStudentListings(new CallbackListings() {
+        if(isUserListing) {
+            firebaseService.getUserStudentListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
                     ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
@@ -55,13 +55,12 @@ public class TabStudentActivity extends AppCompatActivity {
             });
         }
         else {
-            firebaseService.getUserStudentListings(new CallbackListings() {
+            firebaseService.getCourseStudentListings(classData, new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
                     ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
                     listView.setAdapter(adapter);
                 }
-
             });
         }
         groupButton.setOnClickListener(new View.OnClickListener() {

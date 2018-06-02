@@ -4,6 +4,7 @@ public class Listing {
 
     private String id;
     private String name;
+    private Course course;
 
     public Listing() {}
 
@@ -12,8 +13,14 @@ public class Listing {
         this.name = name;
     }
 
+    public Listing(String id, String name, Course course) {
+        this.id = id;
+        this.name = name;
+        this.course = course;
+    }
+
     public String toString() {
-        return "id: " + id + ", name: " + name;
+        return "id: " + id + ", name: " + name + ", course: " + course;
     }
 
     public String getId() {
@@ -24,11 +31,19 @@ public class Listing {
         return name;
     }
 
+    public Course getCourse() {
+        return course;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

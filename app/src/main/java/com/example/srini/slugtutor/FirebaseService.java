@@ -158,6 +158,27 @@ public class FirebaseService {
         coursesReference.addListenerForSingleValueEvent(postListener);
     }
 
+    public void getCourseStudentListings(final Course course, final CallbackListings callback) {
+        DatabaseReference coursesReference = FirebaseDatabase.getInstance().getReference("listings")
+                .child("students");
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                processListings(dataSnapshot, course, callback);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        coursesReference.addListenerForSingleValueEvent(postListener);
+    }
+
     public void getGroupListings(final CallbackListings callback) {
         DatabaseReference coursesReference = FirebaseDatabase.getInstance().getReference("listings")
                 .child("groups");
@@ -166,6 +187,27 @@ public class FirebaseService {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 processListings(dataSnapshot, callback);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        coursesReference.addListenerForSingleValueEvent(postListener);
+    }
+
+    public void getCourseGroupListings(final Course course, final CallbackListings callback) {
+        DatabaseReference coursesReference = FirebaseDatabase.getInstance().getReference("listings")
+                .child("groups");
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                processListings(dataSnapshot, course, callback);
             }
 
             @Override
@@ -200,15 +242,55 @@ public class FirebaseService {
         coursesReference.addListenerForSingleValueEvent(postListener);
     }
 
+    public void getCourseTutorListings(final Course course, final CallbackListings callback) {
+        DatabaseReference coursesReference = FirebaseDatabase.getInstance().getReference("listings")
+                .child("tutors");
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                processListings(dataSnapshot, course, callback);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        coursesReference.addListenerForSingleValueEvent(postListener);
+    }
+
     private void processListings(DataSnapshot dataSnapshot, CallbackListings callback) {
+        processListings(dataSnapshot, null, callback);
+    }
+
+    private void processListings(DataSnapshot dataSnapshot, Course course, CallbackListings callback) {
         List<Listing> listings = new ArrayList<>();
+        outerLoop:
         for (DataSnapshot child : dataSnapshot.getChildren()) {
             Listing listing = new Listing();
+            Course courseListing;
             listing.setId(child.getKey());
             for (DataSnapshot item : child.getChildren()) {
                 switch (item.getKey()) {
                     case "name":
                         listing.setName(item.getValue().toString());
+                        break;
+                    case "course":
+                        if (course == null) {
+                            break;
+                        }
+                        System.out.println(course);
+                        System.out.println(item.getValue());
+                        courseListing = item.getValue(Course.class);
+                        if (!courseListing.getCourseNum().equals(course.getCourseNum())) {
+                         continue outerLoop;
+                        } else {
+                            listing.setCourse(courseListing);
+                        }
                         break;
                 }
             }
@@ -244,19 +326,19 @@ public class FirebaseService {
     }
 
 
-    public void addStudentListing(String name) {
-        addListing("students", name);
+    public void addStudentListing(String name, Course course) {
+        addListing("students", name, course);
     }
 
-    public void addTutorListing(String name) {
-        addListing("tutors", name);
+    public void addTutorListing(String name, Course course) {
+        addListing("tutors", name, course);
     }
 
-    public void addGroupListing(String name) {
-        addListing("groups", name);
+    public void addGroupListing(String name, Course course) {
+        addListing("groups", name, course);
     }
 
-    private void addListing(String type, String name) {
+    private void addListing(String type, String name, Course course) {
         String uuid = UUID.randomUUID().toString();
 
         FirebaseDatabase.getInstance().getReference("users").child(getUserID())
@@ -267,6 +349,7 @@ public class FirebaseService {
 
         databaseReference.child("name").setValue(name);
         databaseReference.child("owner").setValue(getUserID());
+        databaseReference.child("course").setValue(course);
 
     }
 }

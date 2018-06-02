@@ -18,7 +18,7 @@ import java.util.List;
 public class TabTutorActivity extends AppCompatActivity {
     private final Context context = this;
     private String isUser;
-    private boolean decision;
+    private boolean isUserListing;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class TabTutorActivity extends AppCompatActivity {
 
         //System.out.println(getIntent().getParcelableExtra("classData"));
         isUser = getIntent().getStringExtra("isUser");
-        decision = Boolean.valueOf(isUser);
+        isUserListing = Boolean.valueOf(isUser);
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
         final Button studentButton = navigator.findViewById(R.id.student_button);
@@ -46,8 +46,8 @@ public class TabTutorActivity extends AppCompatActivity {
         final FloatingActionButton postingButton = findViewById(R.id.floatingActionButton);
 
         FirebaseService firebaseService = new FirebaseService();
-        if(!decision) {
-            firebaseService.getTutorListings(new CallbackListings() {
+        if(isUserListing) {
+            firebaseService.getUserTutorListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
                     ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
@@ -57,7 +57,7 @@ public class TabTutorActivity extends AppCompatActivity {
             });
         }
         else {
-            firebaseService.getUserTutorListings(new CallbackListings() {
+            firebaseService.getCourseTutorListings(classData, new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
                     ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);

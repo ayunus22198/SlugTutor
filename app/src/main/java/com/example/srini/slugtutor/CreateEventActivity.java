@@ -40,15 +40,15 @@ public class CreateEventActivity extends AppCompatActivity {
                     switch (type) {
                         case "student":
                             i = new Intent(context, TabStudentActivity.class);
-                            firebaseService.addStudentListing(text.getText().toString());
+                            firebaseService.addStudentListing(text.getText().toString(), classData);
                             break;
                         case "group":
                             i = new Intent(context, TabGroupActivity.class);
-                            firebaseService.addGroupListing(text.getText().toString());
+                            firebaseService.addGroupListing(text.getText().toString(), classData);
                             break;
                         case "tutor":
                             i = new Intent(context, TabTutorActivity.class);
-                            firebaseService.addTutorListing(text.getText().toString());
+                            firebaseService.addTutorListing(text.getText().toString(), classData);
                             break;
                     }
                     i.putExtra("classData", classData);

@@ -11,32 +11,31 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.util.List;
 
 public class TabGroupActivity extends AppCompatActivity {
     private final Context context = this;
     private String isUser;
-    private boolean decision;
+    private boolean isUserListing;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
         isUser = getIntent().getStringExtra("isUser");
-        decision = Boolean.valueOf(isUser);
-        final Course classData = (Course)getIntent().getSerializableExtra("classData");
+        isUserListing = Boolean.valueOf(isUser);
+        final Course classData = (Course) getIntent().getSerializableExtra("classData");
         System.out.println(classData);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         // Set Basic ui
         setSupportActionBar(toolbar);
-        if(classData != null)
-        getSupportActionBar().setTitle(classData.getCourseNum() + " - Group");
+        if (classData != null)
+            getSupportActionBar().setTitle(classData.getCourseNum() + " - Group");
         toolbar.setSubtitle("LocSilence");
-       //     System.out.println(getIntent().getParcelableExtra("classData"));
-       // isUser = getIntent().getStringExtra("isUser");
+        //     System.out.println(getIntent().getParcelableExtra("classData"));
+        // isUser = getIntent().getStringExtra("isUser");
 
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
@@ -47,9 +46,8 @@ public class TabGroupActivity extends AppCompatActivity {
         final FloatingActionButton postingButton = findViewById(R.id.floatingActionButton);
 
         FirebaseService firebaseService = new FirebaseService();
-        if(!decision)
-        {
-            firebaseService.getGroupListings(new CallbackListings() {
+        if (isUserListing) {
+            firebaseService.getUserGroupListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
                     ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
@@ -57,10 +55,8 @@ public class TabGroupActivity extends AppCompatActivity {
                 }
 
             });
-        }
-        else
-            {
-            firebaseService.getUserGroupListings(new CallbackListings() {
+        } else {
+            firebaseService.getCourseGroupListings(classData, new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
                     ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, listings);
@@ -96,8 +92,8 @@ public class TabGroupActivity extends AppCompatActivity {
         postingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context,CreateEventActivity.class);
-                i.putExtra("type","group");
+                Intent i = new Intent(context, CreateEventActivity.class);
+                i.putExtra("type", "group");
                 i.putExtra("classData", classData);
                 startActivity(i);
                 finish();
