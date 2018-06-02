@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -29,6 +30,7 @@ import java.util.List;
 public class CustomAdapter extends BaseAdapter {
     private List listData;
     private LayoutInflater layoutInflater;
+    private boolean clicked = false;
 
     public CustomAdapter(Context context, List<Listing> listData) {
         this.listData = listData;
@@ -51,7 +53,7 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.list_row_layout, null);
             holder = new ViewHolder();
@@ -71,7 +73,13 @@ public class CustomAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 //claim listing
-                
+                clicked=!clicked;
+                if(clicked) {
+                    holder.claim.setBackgroundColor(Color.rgb(164, 198, 57));
+                }
+                else {
+                    holder.claim.setBackgroundColor(Color.rgb(211, 211, 211));
+                }
             }
         });
 
