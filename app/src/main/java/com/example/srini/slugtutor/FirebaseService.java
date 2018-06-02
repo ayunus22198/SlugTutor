@@ -2,6 +2,7 @@ package com.example.srini.slugtutor;
 
 import android.util.Log;
 
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,18 +15,19 @@ import java.util.List;
 import java.util.UUID;
 
 
-
 public class FirebaseService {
 
     // TODO: when a user signs out, set this ID to null
     private static String cachedUserId = null;
 
-    public FirebaseService() {}
+    public FirebaseService() {
+    }
 
     public String getUserID() {
         if (FirebaseService.cachedUserId == null) {
             FirebaseService.cachedUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
+        System.out.println(FirebaseService.cachedUserId);
         return FirebaseService.cachedUserId;
     }
 
@@ -41,7 +43,7 @@ public class FirebaseService {
                     Course course = new Course();
                     course.setId(child.getKey());
                     for (DataSnapshot item : child.getChildren()) {
-                        switch(item.getKey()) {
+                        switch (item.getKey()) {
                             case "name":
                                 course.setName(item.getValue().toString());
                                 break;
@@ -61,6 +63,7 @@ public class FirebaseService {
 
                 callback.callback(courses);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
@@ -197,15 +200,13 @@ public class FirebaseService {
         coursesReference.addListenerForSingleValueEvent(postListener);
     }
 
-
-
     private void processListings(DataSnapshot dataSnapshot, CallbackListings callback) {
         List<Listing> listings = new ArrayList<>();
         for (DataSnapshot child : dataSnapshot.getChildren()) {
             Listing listing = new Listing();
             listing.setId(child.getKey());
             for (DataSnapshot item : child.getChildren()) {
-                switch(item.getKey()) {
+                switch (item.getKey()) {
                     case "name":
                         listing.setName(item.getValue().toString());
                         break;
@@ -219,13 +220,29 @@ public class FirebaseService {
 
     public void addCourse(Course course) {
         FirebaseDatabase.getInstance().getReference("users")
-                .child(getUserID()).child("courses").child(course.getId())
+                .child(getUserID()).child("courses").child(course.getCourseNum())
                 .setValue(new Course(
                         course.getName(),
                         course.getCourseNum(),
                         course.getProfessor(),
                         course.getDescription()));
     }
+
+    public void addCourse(Course course, final Callback callback) {
+        FirebaseDatabase.getInstance().getReference("users")
+                .child(getUserID()).child("courses").child(course.getCourseNum())
+                .setValue(new Course(
+                        course.getName(),
+                        course.getCourseNum(),
+                        course.getProfessor(),
+                        course.getDescription()), new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        callback.callback();
+                    }
+                });
+    }
+
 
     public void addStudentListing(String name) {
         addListing("students", name);

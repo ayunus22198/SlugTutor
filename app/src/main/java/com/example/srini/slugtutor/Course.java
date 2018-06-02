@@ -24,7 +24,6 @@ public class Course implements Serializable {
     }
 
     public Course(String name, String courseNum, String professor, String description) {
-        this.id = id;
         this.name = name;
         this.courseNum = courseNum;
         this.professor = professor;
