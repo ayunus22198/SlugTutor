@@ -18,7 +18,7 @@ import java.util.List;
 public class TabTutorActivity extends AppCompatActivity {
     private final Context context = this;
     private String isUser;
-    private boolean isUserListing;
+    private boolean decision;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class TabTutorActivity extends AppCompatActivity {
 
         //System.out.println(getIntent().getParcelableExtra("classData"));
         isUser = getIntent().getStringExtra("isUser");
-        isUserListing = Boolean.valueOf(isUser);
+        decision = Boolean.valueOf(isUser);
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
         final Button studentButton = navigator.findViewById(R.id.student_button);
@@ -46,7 +46,18 @@ public class TabTutorActivity extends AppCompatActivity {
         final FloatingActionButton postingButton = findViewById(R.id.floatingActionButton);
 
         FirebaseService firebaseService = new FirebaseService();
-        if(isUserListing) {
+        if(!decision) {
+            firebaseService.getTutorListings(new CallbackListings() {
+                @Override
+                public void callback(List<Listing> listings) {
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
+                    listView.setAdapter(adapter);
+                }
+
+            });
+
+        }
+        else {
             firebaseService.getUserTutorListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
@@ -55,36 +66,10 @@ public class TabTutorActivity extends AppCompatActivity {
                 }
 
             });
-            postingButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context,CreateEventActivityThroughUser.class);
-                    i.putExtra("type","tutor");
-                    i.putExtra("classData", classData);
-                    startActivity(i);
-                    finish();
-                }
-            });
-        }
-        else {
-            firebaseService.getCourseTutorListings(classData, new CallbackListings() {
-                @Override
-                public void callback(List<Listing> listings) {
-                    CustomAdapter adapter = new CustomAdapter(context,listings);
-                    listView.setAdapter(adapter);
-                }
+            postingButton.hide();
 
-            });
-            postingButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context,CreateEventActivity.class);
-                    i.putExtra("type","tutor");
-                    i.putExtra("classData", classData);
-                    startActivity(i);
-                    finish();
-                }
-            });
+
+
         }
         studentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +93,16 @@ public class TabTutorActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
             }
         });
-
+        postingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context,CreateEventActivity.class);
+                i.putExtra("type","tutor");
+                i.putExtra("classData", classData);
+                startActivity(i);
+                finish();
+            }
+        });
 
 
     }

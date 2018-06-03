@@ -11,30 +11,30 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.util.List;
 
 public class TabGroupActivity extends AppCompatActivity {
     private final Context context = this;
     private String isUser;
-    private boolean isUserListing;
-
+    private boolean decision;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
         isUser = getIntent().getStringExtra("isUser");
-        isUserListing = Boolean.valueOf(isUser);
-        final Course classData = (Course) getIntent().getSerializableExtra("classData");
+        decision = Boolean.valueOf(isUser);
+        final Course classData = (Course)getIntent().getSerializableExtra("classData");
         System.out.println(classData);
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         // Set Basic ui
         setSupportActionBar(toolbar);
-        if (classData != null)
-            getSupportActionBar().setTitle(classData.getCourseNum() + " - Group");
+        if(classData != null)
+        getSupportActionBar().setTitle(classData.getCourseNum() + " - Group");
         toolbar.setSubtitle("LocSilence");
-
         //  System.out.println(getIntent().getParcelableExtra("classData"));
         //isUser = getIntent().getStringExtra("isUser");
 
@@ -47,43 +47,30 @@ public class TabGroupActivity extends AppCompatActivity {
         final FloatingActionButton postingButton = findViewById(R.id.floatingActionButton);
 
         FirebaseService firebaseService = new FirebaseService();
-        if (isUserListing) {
-            firebaseService.getUserGroupListings(new CallbackListings() {
+        if(!decision)
+        {
+            firebaseService.getGroupListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    CustomAdapter adapter = new CustomAdapter(context, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
                 }
 
             });
-            postingButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context, CreateEventActivityThroughUser.class);
-                    i.putExtra("type", "group");
-                    i.putExtra("classData", classData);
-                    startActivity(i);
-                    finish();
-                }
-            });
-        } else {
-            firebaseService.getCourseGroupListings(classData, new CallbackListings() {
+            postingButton.hide();
+
+        }
+        else
+            {
+            firebaseService.getUserGroupListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    CustomAdapter adapter = new CustomAdapter(context, listings);
+                    CustomAdapter adapter = new CustomAdapter(context,listings);
                     listView.setAdapter(adapter);
                 }
+
             });
-            postingButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context, CreateEventActivity.class);
-                    i.putExtra("type", "group");
-                    i.putExtra("classData", classData);
-                    startActivity(i);
-                    finish();
-                }
-            });
+
         }
         studentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +95,17 @@ public class TabGroupActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
             }
         });
+        postingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context,CreateEventActivity.class);
+                i.putExtra("type","group");
+                i.putExtra("classData", classData);
+                startActivity(i);
+                finish();
+            }
+        });
+
 
     }
 }

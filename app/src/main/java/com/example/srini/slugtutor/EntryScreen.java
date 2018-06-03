@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,23 +64,17 @@ public class EntryScreen extends AppCompatActivity{
         int id = item.getItemId();
         switch(id) {
             case R.id.classesTransition:
-                if(item.isChecked()) {
-                    item.setChecked(false);
-                }
-                else {
-                    item.setChecked(true);
-                }
+                Toast.makeText(EntryScreen.this, "Classes Page", Toast.LENGTH_LONG).show();
+                return true;
             case R.id.listingsTransition:
                 Intent i = new Intent(EntryScreen.this, TabGroupActivity.class);
                 i.putExtra("isUser", "true");
                 startActivity(i);
+                return true;
             case R.id.transitionMenu:
-                if(item.isChecked()) {
-                    item.setChecked(false);
-                }
-                else {
-                    item.setChecked(true);
-                }
+                Intent leave = new Intent(EntryScreen.this, SignInActivity.class);
+                startActivity(leave);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -185,23 +185,18 @@ public class ListOfClasses  extends AppCompatActivity implements android.widget.
         int id = item.getItemId();
         switch(id) {
             case R.id.classesTransition:
-                if(item.isChecked()) {
-                    item.setChecked(false);
-                }
-                else {
-                    item.setChecked(true);
-                }
+                Intent classes = new Intent(ListOfClasses.this, EntryScreen.class);
+                startActivity(classes);
+                return true;
             case R.id.listingsTransition:
                 Intent i = new Intent(ListOfClasses.this, TabGroupActivity.class);
                 i.putExtra("isUser", "true");
                 startActivity(i);
+                return true;
             case R.id.transitionMenu:
-                if(item.isChecked()) {
-                    item.setChecked(false);
-                }
-                else {
-                    item.setChecked(true);
-                }
+                Intent leave = new Intent(ListOfClasses.this, SignInActivity.class);
+                startActivity(leave);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

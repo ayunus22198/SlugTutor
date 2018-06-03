@@ -37,8 +37,6 @@
         </activity>
         <activity android:name=".CreateEventActivity">
         </activity>
-        <activity android:name=".CreateEventActivityThroughUser">
-        </activity>
     </application>
 
 </manifest>
