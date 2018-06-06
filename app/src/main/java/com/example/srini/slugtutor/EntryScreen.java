@@ -51,7 +51,7 @@ public class EntryScreen extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), ListOfClasses.class);
+                Intent i = new Intent(getApplicationContext(), ListOfMajors.class);
                 startActivity(i);
             }
         });

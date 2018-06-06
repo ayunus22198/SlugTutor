@@ -21,7 +21,7 @@
         </activity>
         <activity android:name=".EntryScreen"></activity>
         <activity android:name=".Listings"></activity>
-
+        <activity android:name=".ListOfMajors"></activity>
         <activity android:name=".ListOfClasses"></activity>
         <activity
             android:name=".TabGroupActivity"
