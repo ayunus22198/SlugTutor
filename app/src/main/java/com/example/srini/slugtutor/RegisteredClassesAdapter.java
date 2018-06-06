@@ -57,8 +57,8 @@ public class RegisteredClassesAdapter extends ArrayAdapter<Course>  {
         final Course iteminlist = items.get(position);
         if(iteminlist != null && iteminlist.getCourseNum() != null && iteminlist.getProfessor()!=null &&  !iteminlist.getProfessor().toLowerCase().equals("not offered")) {
             if(holder != null) {
-                holder.className.setText("Course: " + iteminlist.getCourseNum());
-                holder.classTeacher.setText("Teacher: " + iteminlist.getProfessor());
+                holder.className.setText(iteminlist.getCourseNum());
+                holder.classTeacher.setText(iteminlist.getProfessor());
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

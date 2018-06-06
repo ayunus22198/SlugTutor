@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,30 +23,29 @@ import static com.example.srini.slugtutor.ListOfClasses.getUserCourses;
  */
 
 public class EntryScreen extends AppCompatActivity{
-    FloatingActionButton fb;
-    Activity c;
-    ListView lvRegClasses;
-    static ArrayList<Course> regClasses = getUserCourses();
-    RegisteredClassesAdapter adapter;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entry_screen);
 
-        c = this;
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setSubtitle("My Classes");
 
-        fb = findViewById(R.id.floatingActionButton);
-        lvRegClasses = findViewById(R.id.registered_classes);
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        final ListView listOfClasses = findViewById(R.id.registered_classes);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        listOfClasses.setEmptyView(progressBar);
 
         FirebaseService firebaseService = new FirebaseService();
         firebaseService.getUserClasses(new CallbackCourses() {
             @Override
             public void callback(List<Course> courses) {
-                adapter = new RegisteredClassesAdapter(c, courses);
-                lvRegClasses.setAdapter(adapter);
+                RegisteredClassesAdapter adapter = new RegisteredClassesAdapter(EntryScreen.this, courses);
+                listOfClasses.setAdapter(adapter);
             }
         });
 
-        fb.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), ListOfClasses.class);

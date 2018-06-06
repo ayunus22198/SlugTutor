@@ -7,7 +7,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/listingsTransition"
-        android:title="Listings"
+        android:title="My Listings"
         app:showAsAction="never" />
     <item
         android:id="@+id/transitionMenu"

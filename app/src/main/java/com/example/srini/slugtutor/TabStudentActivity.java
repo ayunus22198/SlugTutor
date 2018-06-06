@@ -9,20 +9,19 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.List;
 
 public class TabStudentActivity extends AppCompatActivity {
-    private final Context context = this;
-    private String isUser;
-    private boolean decision;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); setContentView(R.layout.activity_tab);
 
+        final String isUser = getIntent().getStringExtra("isUser");
+        final boolean isUserListings = Boolean.valueOf(isUser);
         final Course classData = (Course)getIntent().getSerializableExtra("classData");
         System.out.println(classData);
 
@@ -30,11 +29,9 @@ public class TabStudentActivity extends AppCompatActivity {
         // Set Basic ui
         setSupportActionBar(toolbar);
         if(classData != null)
-        getSupportActionBar().setTitle(classData.getCourseNum() + " - Students");
-        toolbar.setSubtitle("LocSilence");
+        getSupportActionBar().setTitle(classData.getCourseNum());
+        toolbar.setSubtitle((isUserListings ? "My Student Listings" : "Student Listings"));
 
-        isUser = getIntent().getStringExtra("isUser");
-        decision = Boolean.valueOf(isUser);
         final ListView listView = findViewById(R.id.listView);
         final View navigator = findViewById(R.id.navigator);
         final Button groupButton = navigator.findViewById(R.id.group_button);
@@ -44,38 +41,27 @@ public class TabStudentActivity extends AppCompatActivity {
         final FloatingActionButton postingButton = findViewById(R.id.floatingActionButton);
 
         FirebaseService firebaseService = new FirebaseService();
-        if(!decision) {
-            firebaseService.getStudentListings(new CallbackListings() {
-                @Override
-                public void callback(List<Listing> listings) {
-                    CustomAdapter adapter = new CustomAdapter(context,listings);
-                    listView.setAdapter(adapter);
-                }
-
-            });
-            postingButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context,CreateEventActivity.class);
-                    i.putExtra("type","student");
-                    i.putExtra("classData", classData);
-                    startActivity(i);
-                    finish();
-                }
-            });
-
-        }
-        else {
+        if(isUserListings) {
+            postingButton.hide();
             firebaseService.getUserStudentListings(new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
-                    CustomAdapter adapter = new CustomAdapter(context,listings);
+                    CustomAdapter adapter = new CustomAdapter(TabStudentActivity.this, listings);
                     listView.setAdapter(adapter);
                 }
 
             });
-            postingButton.hide();
         }
+        else {
+            firebaseService.getStudentListings(new CallbackListings() {
+                @Override
+                public void callback(List<Listing> listings) {
+                    CustomAdapter adapter = new CustomAdapter(TabStudentActivity.this, listings);
+                    listView.setAdapter(adapter);
+                }
+            });
+        }
+
         groupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,11 +89,10 @@ public class TabStudentActivity extends AppCompatActivity {
         postingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context,CreateEventActivity.class);
+                Intent i = new Intent(TabStudentActivity.this, CreateEventActivity.class);
                 i.putExtra("type","student");
                 i.putExtra("classData", classData);
                 startActivity(i);
-                finish();
             }
         });
     }

@@ -23,32 +23,35 @@ public class CreateEventActivity extends AppCompatActivity {
 
         final Course classData = (Course)getIntent().getSerializableExtra("classData");
         System.out.println(classData);
-        final EditText text = findViewById(R.id.editText);
-        final Button enter = findViewById(R.id.button2);
-        Button b = findViewById(R.id.button2);
+        final EditText titleEditText = findViewById(R.id.listingTitle);
+        final EditText descriptionEditText = findViewById(R.id.listingDescription);
+        final Button addButton = findViewById(R.id.addListing);
 
         Intent i = getIntent();
         final String type = i.getStringExtra("type");
 
         final FirebaseService firebaseService = new FirebaseService();
 
-        enter.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!text.getText().toString().equals("")) {
+                if (!titleEditText.getText().toString().equals("") && !descriptionEditText.getText().toString().equals("")) {
                     Intent i = new Intent();
                     switch (type) {
                         case "student":
                             i = new Intent(context, TabStudentActivity.class);
-                            firebaseService.addStudentListing(text.getText().toString(), classData);
+                            firebaseService.addStudentListing(titleEditText.getText().toString(),
+                                    descriptionEditText.getText().toString(), classData);
                             break;
                         case "group":
                             i = new Intent(context, TabGroupActivity.class);
-                            firebaseService.addGroupListing(text.getText().toString(), classData);
+                            firebaseService.addGroupListing(titleEditText.getText().toString(),
+                                    descriptionEditText.getText().toString(), classData);
                             break;
                         case "tutor":
                             i = new Intent(context, TabTutorActivity.class);
-                            firebaseService.addTutorListing(text.getText().toString(), classData);
+                            firebaseService.addTutorListing(titleEditText.getText().toString(),
+                                    descriptionEditText.getText().toString(), classData);
                             break;
                     }
                     i.putExtra("classData", classData);
@@ -60,6 +63,5 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }

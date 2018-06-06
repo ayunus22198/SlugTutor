@@ -326,19 +326,19 @@ public class FirebaseService {
     }
 
 
-    public void addStudentListing(String name, Course course) {
-        addListing("students", name, course);
+    public void addStudentListing(String name, String description, Course course) {
+        addListing("students", name, description, course);
     }
 
-    public void addTutorListing(String name, Course course) {
-        addListing("tutors", name, course);
+    public void addTutorListing(String name, String description, Course course) {
+        addListing("tutors", name, description, course);
     }
 
-    public void addGroupListing(String name, Course course) {
-        addListing("groups", name, course);
+    public void addGroupListing(String name, String description, Course course) {
+        addListing("groups", name, description, course);
     }
 
-    private void addListing(String type, String name, Course course) {
+    private void addListing(String type, String name, String description, Course course) {
         String uuid = UUID.randomUUID().toString();
 
         FirebaseDatabase.getInstance().getReference("users").child(getUserID())
@@ -348,6 +348,7 @@ public class FirebaseService {
                 .child(uuid);
 
         databaseReference.child("name").setValue(name);
+        databaseReference.child("description").setValue(description);
         databaseReference.child("owner").setValue(getUserID());
         databaseReference.child("course").setValue(course);
 
