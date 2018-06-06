@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,8 @@ public class EntryScreen extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entry_screen);
+
+        new FirebaseService().setUpAccount();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setSubtitle("My Classes");
@@ -76,6 +79,11 @@ public class EntryScreen extends AppCompatActivity{
                 Intent leave = new Intent(EntryScreen.this, SignInActivity.class);
                 startActivity(leave);
                 return true;
+            case R.id.conversationsTransition:
+                Intent x = new Intent(EntryScreen.this, MyConversationsActivity.class);
+                startActivity(x);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

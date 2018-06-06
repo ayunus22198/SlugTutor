@@ -4,14 +4,19 @@ import android.util.Log;
 
 import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 
@@ -21,6 +26,15 @@ public class FirebaseService {
     private static String cachedUserId = null;
 
     public FirebaseService() {
+    }
+
+    public void setUpAccount() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String name = user.getDisplayName();
+            FirebaseDatabase.getInstance().getReference("users").child(user.getUid())
+                    .child("name").setValue(name);
+        }
     }
 
     public String getUserID() {
@@ -351,6 +365,116 @@ public class FirebaseService {
         databaseReference.child("description").setValue(description);
         databaseReference.child("owner").setValue(getUserID());
         databaseReference.child("course").setValue(course);
+
+    }
+
+    private int conversationCounter;
+
+    public void getConversations(final CallbackConversations callback) {
+        DatabaseReference conversationsReference = FirebaseDatabase.getInstance().getReference("users")
+                .child(getUserID()).child("conversations");
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final List<String> names = new ArrayList<>();
+                conversationCounter = 0;
+                final long max = dataSnapshot.getChildrenCount();
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    getName(item.getKey(), new CallbackName() {
+                        @Override
+                        public void callback(String name) {
+                            conversationCounter++;
+                            names.add(name);
+                            if (conversationCounter == max) {
+                                callback.callback(names);
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        conversationsReference.addListenerForSingleValueEvent(postListener);
+    }
+
+    public void getName(String id, final CallbackName callback) {
+        DatabaseReference nameReference = FirebaseDatabase.getInstance().getReference("users")
+                .child(id).child("name");
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                callback.callback(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        nameReference.addListenerForSingleValueEvent(postListener);
+    }
+
+    public void getConversationSocket(String conversationID) {
+        DatabaseReference coursesReference = FirebaseDatabase.getInstance().getReference("conversations")
+                .child(conversationID);
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+
+        coursesReference.addValueEventListener(postListener);
+    }
+
+    public void sendMessage(String recipientID, String message) {
+        String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS", Locale.US).format(new Date());
+
+        System.out.println("test!");
+        System.out.println(now);
+        System.out.println(getConversationID(recipientID, getUserID()));
+
+        String conversationID = getConversationID(recipientID, getUserID());
+        if (conversationID == null) {
+            return;
+        }
+        FirebaseDatabase.getInstance().getReference("users").child(getUserID())
+                .child("conversations").child(recipientID).setValue(conversationID);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("conversations")
+                .child(conversationID).child(now);
+
+        databaseReference.child("message").setValue(message);
+        databaseReference.child("owner").setValue(getUserID());
+    }
+
+    private String getConversationID(String id1, String id2) {
+       if (id1.compareTo(id2) > 0) {
+           return id1 + id2;
+       } else if (id1.compareTo(id2) < 0) {
+           return id2 + id1;
+       } else {
+           return null;
+       }
 
     }
 }
