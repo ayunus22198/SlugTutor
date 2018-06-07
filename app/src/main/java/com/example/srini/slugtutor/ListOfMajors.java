@@ -46,7 +46,7 @@ public class ListOfMajors extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String type = arrayOfCourses[position - 1];
+                String type = arrayOfCourses[position ];
                 String urltopass = URL + type.toLowerCase() + ".html";
                 Intent i = new Intent(ListOfMajors.this, ListOfClasses.class);
                 i.putExtra("type", type);

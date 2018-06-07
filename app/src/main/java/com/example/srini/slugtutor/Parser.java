@@ -94,6 +94,8 @@ public class Parser extends AsyncTask<Void, Void, Void> {
     public static ArrayList<Course> writ=new ArrayList<Course>();
     public static ArrayList<Course> yidd=new ArrayList<Course>();
 
+    public static ArrayList<Course> test=new ArrayList<Course>();
+
     public static ArrayList<Course> courses=new ArrayList<Course>();
 
     @Override
@@ -205,7 +207,7 @@ public class Parser extends AsyncTask<Void, Void, Void> {
 
     }
 
-    private void loadList(String url, ArrayList<Course> list, String name)
+    public static ArrayList<Course> loadList(String url, ArrayList<Course> list, String name)
     {
         try {
             Document document = Jsoup.connect(url).get();
@@ -247,7 +249,7 @@ public class Parser extends AsyncTask<Void, Void, Void> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+    return list;
     }
 
 
