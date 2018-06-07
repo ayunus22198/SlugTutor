@@ -21,9 +21,12 @@ public class MyConversationsActivity extends AppCompatActivity {
         firebaseService.getConversations(new CallbackConversations() {
             @Override
             public void callback(List<String> names) {
+
+                MyConversationsAdapter myConversationsAdapter = new MyConversationsAdapter(MyConversationsActivity.this, names);
+
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(MyConversationsActivity.this,
                         android.R.layout.simple_list_item_1, names);
-                conversationsList.setAdapter(adapter);
+                conversationsList.setAdapter(myConversationsAdapter);
             }
         });
 

@@ -39,6 +39,10 @@
         </activity>
         <activity android:name=".MyConversationsActivity">
         </activity>
+        <activity android:name=".ConversationActivity">
+        </activity>
+        <activity android:name=".TabListingExpanded">
+        </activity>
 
     </application>
 

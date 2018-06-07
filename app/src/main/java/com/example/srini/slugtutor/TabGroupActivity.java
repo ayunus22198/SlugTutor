@@ -48,16 +48,18 @@ public class TabGroupActivity extends AppCompatActivity {
                 @Override
                 public void callback(List<Listing> listings) {
                     CustomAdapter adapter = new CustomAdapter(TabGroupActivity.this, listings);
-                    listView.setAdapter(adapter);
+                    TabListingsAdapter tabListingsAdapter = new TabListingsAdapter(TabGroupActivity.this, listings, true);
+                    listView.setAdapter(tabListingsAdapter);
                 }
             });
         }
         else {
-            firebaseService.getGroupListings(new CallbackListings() {
+            firebaseService.getCourseGroupListings(classData, new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
                     CustomAdapter adapter = new CustomAdapter(TabGroupActivity.this, listings);
-                    listView.setAdapter(adapter);
+                    TabListingsAdapter tabListingsAdapter = new TabListingsAdapter(TabGroupActivity.this, listings, false);
+                    listView.setAdapter(tabListingsAdapter);
                 }
 
             });

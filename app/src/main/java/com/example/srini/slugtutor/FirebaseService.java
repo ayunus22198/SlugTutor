@@ -293,6 +293,12 @@ public class FirebaseService {
                     case "name":
                         listing.setName(item.getValue().toString());
                         break;
+                    case "description":
+                        listing.setDescription(item.getValue().toString());
+                        break;
+                    case "owner":
+                        listing.setOwner(item.getValue().toString());
+                        break;
                     case "course":
                         if (course == null) {
                             break;
@@ -355,8 +361,13 @@ public class FirebaseService {
     private void addListing(String type, String name, String description, Course course) {
         String uuid = UUID.randomUUID().toString();
 
-        FirebaseDatabase.getInstance().getReference("users").child(getUserID())
-                .child("listings").child(type).child(uuid).child("name").setValue(name);
+        DatabaseReference userDatabaseReference = FirebaseDatabase.getInstance().getReference("users").child(getUserID())
+                .child("listings").child(type).child(uuid);
+
+        userDatabaseReference.child("name").setValue(name);
+        userDatabaseReference.child("description").setValue(description);
+        userDatabaseReference.child("owner").setValue(getUserID());
+        userDatabaseReference.child("course").setValue(course);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("listings").child(type)
                 .child(uuid);
@@ -380,12 +391,12 @@ public class FirebaseService {
                 final List<String> names = new ArrayList<>();
                 conversationCounter = 0;
                 final long max = dataSnapshot.getChildrenCount();
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                for (final DataSnapshot item : dataSnapshot.getChildren()) {
                     getName(item.getKey(), new CallbackName() {
                         @Override
                         public void callback(String name) {
                             conversationCounter++;
-                            names.add(name);
+                            names.add(name + "," + item.getKey());
                             if (conversationCounter == max) {
                                 callback.callback(names);
                             }
@@ -426,24 +437,16 @@ public class FirebaseService {
         nameReference.addListenerForSingleValueEvent(postListener);
     }
 
-    public void getConversationSocket(String conversationID) {
-        DatabaseReference coursesReference = FirebaseDatabase.getInstance().getReference("conversations")
+    public DatabaseReference getConversationSocket(String otherUserID) {
+        String conversationID = getConversationID(otherUserID, getUserID());
+        if (conversationID == null) {
+            return null;
+        }
+
+        DatabaseReference conversationSocket = FirebaseDatabase.getInstance().getReference("conversations")
                 .child(conversationID);
 
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
-                // ...
-            }
-        };
-
-        coursesReference.addValueEventListener(postListener);
+        return conversationSocket;
     }
 
     public void sendMessage(String recipientID, String message) {
@@ -465,6 +468,18 @@ public class FirebaseService {
 
         databaseReference.child("message").setValue(message);
         databaseReference.child("owner").setValue(getUserID());
+    }
+
+    public boolean createConversation(String recipientID) {
+        String conversationID = getConversationID(recipientID, getUserID());
+        if (conversationID == null) {
+            return false;
+        }
+
+        FirebaseDatabase.getInstance().getReference("users").child(getUserID())
+                .child("conversations").child(recipientID).setValue(conversationID);
+
+        return true;
     }
 
     private String getConversationID(String id1, String id2) {

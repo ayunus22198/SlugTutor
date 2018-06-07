@@ -1,11 +1,14 @@
 package com.example.srini.slugtutor;
 
-public class Listing {
+import java.io.Serializable;
+
+public class Listing implements Serializable {
 
     private String id;
     private String name;
     private Course course;
     private String description;
+    private String owner;
 
     public Listing() {}
 
@@ -17,6 +20,13 @@ public class Listing {
     public Listing(String id, String name, Course course) {
         this.id = id;
         this.name = name;
+        this.course = course;
+    }
+
+    public Listing(String id, String name, String description, Course course) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
         this.course = course;
     }
 
@@ -36,6 +46,14 @@ public class Listing {
         return course;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -46,5 +64,13 @@ public class Listing {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

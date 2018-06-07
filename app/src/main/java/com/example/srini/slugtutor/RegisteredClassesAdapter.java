@@ -26,52 +26,38 @@ public class RegisteredClassesAdapter extends ArrayAdapter<Course>  {
     private Activity context;
     private List<Course> items;
 
-
     public RegisteredClassesAdapter(Activity context, List<Course> items) {
-        super(context, R.layout.user_classes, items);
+        super(context, 0, items);
         this.context = context;
         this.items = items;
     }
 
-    private static class ListOfClassesHolder {
-        public TextView className;
-        public TextView classTeacher;
-    }
-
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        ListOfClassesHolder holder = new ListOfClassesHolder();
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.user_classes, null);
-            holder.className = (TextView) v.findViewById(R.id.className);
-            holder.classTeacher = (TextView) v.findViewById(R.id.teacherName);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.user_classes, parent, false);
+        }
 
-        } else {
-            holder = (ListOfClassesHolder) v.getTag();
-        }
-        if(holder == null) {
+        final Course course = items.get(position);
 
-            // Toast.makeText(getContext(), "null", Toast.LENGTH_LONG).show();
+        TextView className = convertView.findViewById(R.id.className);
+        TextView classTeacher = convertView.findViewById(R.id.teacherName);
+
+        if (course != null) {
+            className.setText(course.getCourseNum());
+            classTeacher.setText(course.getProfessor());
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, TabGroupActivity.class);
+                    System.out.println(course);
+                    i.putExtra("classData", course);
+                    i.putExtra("isUser", "false");
+                    context.startActivity(i);
+                }
+            });
         }
-        final Course iteminlist = items.get(position);
-        if(iteminlist != null && iteminlist.getCourseNum() != null && iteminlist.getProfessor()!=null &&  !iteminlist.getProfessor().toLowerCase().equals("not offered")) {
-            if(holder != null) {
-                holder.className.setText(iteminlist.getCourseNum());
-                holder.classTeacher.setText(iteminlist.getProfessor());
-                v.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(context, TabGroupActivity.class);
-                        System.out.println(iteminlist);
-                        i.putExtra("classData", iteminlist);
-                        i.putExtra("isUser", "false");
-                        context.startActivity(i);
-                    }
-                });
-            }
-        }
-        return v;
+
+        return convertView;
     }
 
 }

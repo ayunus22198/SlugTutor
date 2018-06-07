@@ -47,17 +47,19 @@ public class TabStudentActivity extends AppCompatActivity {
                 @Override
                 public void callback(List<Listing> listings) {
                     CustomAdapter adapter = new CustomAdapter(TabStudentActivity.this, listings);
-                    listView.setAdapter(adapter);
+                    TabListingsAdapter tabListingsAdapter = new TabListingsAdapter(TabStudentActivity.this, listings, true);
+                    listView.setAdapter(tabListingsAdapter);
                 }
 
             });
         }
         else {
-            firebaseService.getStudentListings(new CallbackListings() {
+            firebaseService.getCourseStudentListings(classData, new CallbackListings() {
                 @Override
                 public void callback(List<Listing> listings) {
                     CustomAdapter adapter = new CustomAdapter(TabStudentActivity.this, listings);
-                    listView.setAdapter(adapter);
+                    TabListingsAdapter tabListingsAdapter = new TabListingsAdapter(TabStudentActivity.this, listings, false);
+                    listView.setAdapter(tabListingsAdapter);
                 }
             });
         }
