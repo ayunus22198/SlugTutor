@@ -477,10 +477,10 @@ public class FirebaseService {
         }
 
         FirebaseDatabase.getInstance().getReference("users").child(getUserID())
-                .child("conversations").child(getUserID()).setValue(conversationID);
+                .child("conversations").child(recipientID).setValue(conversationID);
 
         FirebaseDatabase.getInstance().getReference("users").child(recipientID)
-                .child("conversations").child(recipientID).setValue(conversationID);
+                .child("conversations").child(getUserID()).setValue(conversationID);
 
         return true;
     }
