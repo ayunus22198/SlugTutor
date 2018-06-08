@@ -479,7 +479,7 @@ public class FirebaseService {
         FirebaseDatabase.getInstance().getReference("users").child(getUserID())
                 .child("conversations").child(getUserID()).setValue(conversationID);
 
-        FirebaseDatabase.getInstance().getReference("users").child(getUserID())
+        FirebaseDatabase.getInstance().getReference("users").child(recipientID)
                 .child("conversations").child(recipientID).setValue(conversationID);
 
         return true;
