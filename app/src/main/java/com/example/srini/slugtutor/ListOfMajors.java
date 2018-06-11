@@ -60,25 +60,25 @@ public class ListOfMajors extends AppCompatActivity {
     }
 
     public void loadCourses() {
-        arrayOfCourses[0] = "CMPS";
-        arrayOfCourses[1] = "ACEN";
-        arrayOfCourses[2] = "ANTH";
-        arrayOfCourses[3] = "APLX";
-        arrayOfCourses[4] = "ANTH";
-        arrayOfCourses[5] = "AMS";
-        arrayOfCourses[6] = "ART";
-        arrayOfCourses[7] = "ARTG";
-        arrayOfCourses[8] = "ASTR";
-        arrayOfCourses[9] = "BIOC";
-        arrayOfCourses[10] = "BME";
-        arrayOfCourses[11] = "CHEM";
-        arrayOfCourses[12] = "CHIN";
-        arrayOfCourses[13] = "CLST";
-        arrayOfCourses[14] = "CLNI";
-        arrayOfCourses[15] = "CLTE";
-        arrayOfCourses[16] = "CMMU";
-        arrayOfCourses[17] = "CMPM";
-        arrayOfCourses[18] = "CMPE";
+        arrayOfCourses[0] = "ACEN";
+        arrayOfCourses[1] = "ANTH";
+        arrayOfCourses[2] = "APLX";
+        arrayOfCourses[3] = "ANTH";
+        arrayOfCourses[4] = "AMS";
+        arrayOfCourses[5] = "ART";
+        arrayOfCourses[6] = "ARTG";
+        arrayOfCourses[7] = "ASTR";
+        arrayOfCourses[8] = "BIOC";
+        arrayOfCourses[9] = "BME";
+        arrayOfCourses[10] = "CHEM";
+        arrayOfCourses[11] = "CHIN";
+        arrayOfCourses[12] = "CLST";
+        arrayOfCourses[13] = "CLNI";
+        arrayOfCourses[14] = "CLTE";
+        arrayOfCourses[15] = "CMMU";
+        arrayOfCourses[16] = "CMPM";
+        arrayOfCourses[17] = "CMPE";
+        arrayOfCourses[18] = "CMPS";
         arrayOfCourses[19] = "COWL";
         arrayOfCourses[20] = "CRES";
         arrayOfCourses[21] = "CRWN";

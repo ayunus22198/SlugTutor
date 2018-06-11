@@ -23,14 +23,10 @@ public class ListOfClassesAdapter extends ArrayAdapter<Course>  {
     private Activity context;
     private List<Course> items;
 
-
     public ListOfClassesAdapter(Activity context, List<Course> items) {
         super(context, R.layout.list_of_classes_cell, items);
         this.context = context;
         this.items = items;
-        for(Course i: items) {
-            Log.i("Course==> ", i.toString() + "\n");
-        }
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -45,6 +41,10 @@ public class ListOfClassesAdapter extends ArrayAdapter<Course>  {
         classTeacher.setText(items.get(position).getProfessor());
         checkBox.setOnCheckedChangeListener((ListOfClasses) context);
         return convertView;
+    }
+
+    public void setItems(List<Course> items) {
+        this.items = items;
     }
 
 }

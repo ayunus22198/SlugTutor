@@ -54,7 +54,7 @@ public class SignInActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
 
-                new Parser().execute();
+//                new Parser().execute();
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 startActivity(new Intent(SignInActivity.this, EntryScreen.class));
