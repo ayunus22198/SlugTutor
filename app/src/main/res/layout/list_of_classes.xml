@@ -6,29 +6,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-<<<<<<< HEAD
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".MainActivity" >
-=======
-        android:layout_height="0dp"
-        android:layout_weight="0">
->>>>>>> 472f9bf789bfe6736a758c61dd1f6a83f0d29bea
 
         <SearchView
             android:id="@+id/searchQuery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-<<<<<<< HEAD
         </SearchView>
-=======
-    <ListView
-        android:id="@+id/list_of_classes_1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="9">
->>>>>>> 472f9bf789bfe6736a758c61dd1f6a83f0d29bea
 
         <ListView
             android:id="@+id/list_of_classes_1"
