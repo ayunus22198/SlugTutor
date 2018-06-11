@@ -45,6 +45,8 @@ public class ListOfClasses extends AppCompatActivity implements android.widget.C
     String submittedClasses = "";
     String submittedDisplay = "";
 
+    private NewParser newParser;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class ListOfClasses extends AppCompatActivity implements android.widget.C
         ProgressBar progressBar = findViewById(R.id.progressBar);
         lv.setEmptyView(progressBar);
 
-        NewParser newParser = new NewParser(this, lv);
+        newParser = new NewParser(this, lv);
 
         String name = getIntent().getStringExtra("type").toLowerCase();
         newParser.execute(name);
@@ -145,7 +147,7 @@ public class ListOfClasses extends AppCompatActivity implements android.widget.C
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         int pos = lv.getPositionForView(buttonView);
         if (pos != ListView.INVALID_POSITION) {
-            Course courseOfUser = arr.get(pos);
+            Course courseOfUser = newParser.getCourses().get(pos);
             if (isChecked) {
                 if (!checkedItems.contains(courseOfUser)) {
                     checkedItems.add(courseOfUser);

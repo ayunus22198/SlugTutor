@@ -24,6 +24,7 @@ public class NewParser extends AsyncTask<String, List<Course>, List<Course>> {
 
     private ListView listView;
     private Context context;
+    private List<Course> courses;
 
     public NewParser(Context context, ListView listView) {
         this.context = context;
@@ -49,7 +50,7 @@ public class NewParser extends AsyncTask<String, List<Course>, List<Course>> {
 
     private List<Course> loadList(String type) {
 
-        List<Course> courses = new ArrayList<>();
+        courses = new ArrayList<>();
 
         try {
             Document document = Jsoup
@@ -91,4 +92,7 @@ public class NewParser extends AsyncTask<String, List<Course>, List<Course>> {
     }
 
 
+    public List<Course> getCourses() {
+        return courses;
+    }
 }
