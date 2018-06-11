@@ -1,5 +1,6 @@
 package com.example.srini.slugtutor;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +43,8 @@ public class ListOfClasses  extends AppCompatActivity implements android.widget.
     Button submit;
     String submittedClasses = "";
     String submittedDisplay = "";
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +56,10 @@ public class ListOfClasses  extends AppCompatActivity implements android.widget.
         if(checkedItems.size() != 0) {
             checkedItems.clear();
         }
+        String name = getIntent().getStringExtra("type").toLowerCase();
+        new Parser().execute();
 
-       String name = getIntent().getStringExtra("type").toLowerCase();
+
         if(name.equals("cmps"))
         {
             arr = Parser.cmps;

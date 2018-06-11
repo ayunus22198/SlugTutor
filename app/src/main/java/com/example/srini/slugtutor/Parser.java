@@ -1,6 +1,9 @@
 package com.example.srini.slugtutor;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import org.jsoup.Jsoup;
@@ -16,7 +19,8 @@ import java.util.Comparator;
  * Created by Srini 
  */
 
-public class Parser extends AsyncTask<Void, Void, Void> {
+@SuppressLint("NewApi")
+public class Parser extends AsyncTask<Void,Void, Void> {
     private static final String TAG = "TAG";
     public static ArrayList<Course> cmps=new ArrayList<Course>();
     public static ArrayList<Course> acen=new ArrayList<Course>();
@@ -198,7 +202,6 @@ public class Parser extends AsyncTask<Void, Void, Void> {
         loadList("https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/ucdc.html",ucdc,"UCDC");
         loadList("https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/writ.html",writ,"WRIT");
         loadList("https://registrar.ucsc.edu/catalog/programs-courses/course-descriptions/yidd.html",yidd,"YIDD");
-
         return null;
     }
 
