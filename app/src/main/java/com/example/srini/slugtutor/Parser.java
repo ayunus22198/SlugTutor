@@ -112,7 +112,7 @@ public class Parser extends AsyncTask<Void,Void, Void> {
         ArrayList<Course> duplicate = new ArrayList<Course>();
         for(int i = 0;i<courses.size();i++)
         {
-            if(!courses.get(i).equals(null) && !courses.get(i).getProfessor().toLowerCase().trim().equals("not offered"))
+            if(!courses.get(i).equals(null) && !"not offered".equals(courses.get(i).getProfessor().toLowerCase().trim()))
             {
                 duplicate.add(courses.get(i));
             }
