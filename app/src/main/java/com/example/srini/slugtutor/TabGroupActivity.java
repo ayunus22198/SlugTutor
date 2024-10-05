@@ -28,7 +28,9 @@ public class TabGroupActivity extends AppCompatActivity {
         // Set Basic ui
         setSupportActionBar(toolbar);
         if(classData != null)
-        getSupportActionBar().setTitle(classData.getCourseNum());
+        {
+            getSupportActionBar().setTitle(classData.getCourseNum());
+        }
         toolbar.setSubtitle((isUserListings ? "My Group Listings" : "Group Listings"));
         //  System.out.println(getIntent().getParcelableExtra("classData"));
         //isUser = getIntent().getStringExtra("isUser");
