@@ -29,7 +29,9 @@ public class TabStudentActivity extends AppCompatActivity {
         // Set Basic ui
         setSupportActionBar(toolbar);
         if(classData != null)
-        getSupportActionBar().setTitle(classData.getCourseNum());
+        {
+            getSupportActionBar().setTitle(classData.getCourseNum());
+        }
         toolbar.setSubtitle((isUserListings ? "My Student Listings" : "Student Listings"));
 
         final ListView listView = findViewById(R.id.listView);
